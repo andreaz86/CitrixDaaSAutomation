@@ -1,5 +1,8 @@
-resource "google_compute_firewall" "default-allow-vda" {
-  name    = "allow-vda-allow-any-local"
+ # Firewall rules applied to VDA VPC
+ # ["${chomp(data.http.myip.response_body)}/32"] can be replaced by [0.0.0.0/0] to allow from anywhere
+
+resource "google_compute_firewall" "default-allow-vda-localnet" {
+  name    = "default-allow-vda-localnet"
   network = google_compute_network.vpc_vda.self_link
   allow {
     protocol = "all"
@@ -59,6 +62,7 @@ resource "google_compute_firewall" "allow-dns-forwarding-vda" {
   target_tags   = ["domaincontroller"]
 }
 
+# this allow IAP access https://github.com/GoogleCloudPlatform/iap-desktop
 resource "google_compute_firewall" "allow-iap-tcp-vda" {
   name    = "allow-iap-tcp-vda"
   network = google_compute_network.vpc_vda.self_link

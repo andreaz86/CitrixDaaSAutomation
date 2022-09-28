@@ -122,15 +122,4 @@ services:
       restart: unless-stopped
       user: 1001:1001
 
-    selenium:
-      image: selenium/standalone-chrome:beta
-      container_name: selenium-chrome
-      ports:
-        - "4444:4444"
-        - "7900:7900"
-      shm_size: 2gb
-      networks:
-          - apps
-      restart: unless-stopped
-
 

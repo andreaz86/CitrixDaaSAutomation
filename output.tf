@@ -1,3 +1,5 @@
+ # Output public IP of VM for convenience
+ 
 output "domaincontroller_external_ip" {
   value = module.domaincontroller.domaincontroller_external_ip
 }

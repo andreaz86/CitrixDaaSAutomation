@@ -23,6 +23,12 @@ resource "google_compute_instance" "vm_cc" {
 
     }
   }
+  /* Metadata is used to:
+     - create the local user as variable
+     - enable SSH server to be used with ansible (instead of using WinRM)
+     - set default SSH shell to powershell
+     - create firewall rules
+  */
   metadata = {
     windows-startup-script-cmd = "net user ${var.username} \"${var.password}\" /add /y & wmic UserAccount where Name=\"${var.username}\" set PasswordExpires=False & net localgroup administrators ${var.username} /add & powershell Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 & powershell New-ItemProperty -Path \"HKLM:\\SOFTWARE\\OpenSSH\" -Name DefaultShell -Value \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -PropertyType String -Force  & powershell Start-Service sshd & powershell Set-Service -Name sshd -StartupType 'Automatic' & powershell New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22 & powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-ExecutionPolicy -ExecutionPolicy bypass -Force\""
   }

@@ -68,18 +68,6 @@
   register: copy_requirements
   tags: "copy"
 
-- name: Copy script to change ns password
-  ansible.builtin.copy:
-    src: "{{ role_path }}/files/change_ns_password.py"
-    dest: /var/requirements/change_ns_password.py
-    mode: '0777'
-    force: true
-  become: true
-
-# - name: Show facts available on the system
-#  ansible.builtin.debug:
-#    var: copy_requirements
-
 - name: Deploy Docker Compose stack
   community.docker.docker_compose:
     project_src: /var/requirements/docker

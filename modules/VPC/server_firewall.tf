@@ -1,3 +1,6 @@
+ # Firewall rules applied to server VPC
+ # ["${chomp(data.http.myip.response_body)}/32"] can be replaced by [0.0.0.0/0] to allow from anywhere
+
 resource "google_compute_firewall" "default-allow-server" {
   name    = "allow-server-allow-any-local"
   network = google_compute_network.vpc_server.self_link
@@ -82,16 +85,6 @@ resource "google_compute_firewall" "allow-server-fromvda" {
   source_ranges = [var.vpc_config.vda.subnet_cidr]
 }
 
-resource "google_compute_firewall" "allow-https-adc" {
-  name    = "allow-https-adc"
-  network = google_compute_network.vpc_server.self_link
-  allow {
-    protocol = "tcp"
-    ports    = ["443"]
-  }
-  source_ranges = ["${chomp(data.http.myip.response_body)}/32"]
-  target_tags   = ["adc"]
-}
 
 resource "google_compute_firewall" "allow-4444-monitoring" {
   name    = "allow-4444-monitoring"
