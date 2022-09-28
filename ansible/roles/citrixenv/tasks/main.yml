@@ -134,26 +134,7 @@
   ansible.builtin.debug:
     var: workspaceurl_change
 
-- name: Configure citrix gateway
-  ansible.builtin.uri:
-    url: "https://resourcelocationmanagement.citrixworkspacesapi.net/{{ citrix_tenant }}/connectivity/{{ resloc_id }}"
-    method: PUT
-    body_format: json
-    status_code: [200, 201]
-    headers:
-      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-      Citrix-CustomerId: "{{ citrix_tenant }}"
-      Citrix-InstanceId: "{{ citrix_siteid }}"
-    body:
-      netscalerOnPremisesUrl: "{{ adcgwurl }}"
-      resourceLocationId: "{{ resloc_id }}"
-      type: "NetscalerGateway"
-  register: workspaceurl_change
-  #when: get_cloudcomain_avaiability.json == false
 
-- name: Show workspaceurl_change
-  ansible.builtin.debug:
-    var: workspaceurl_change
 
 ## Setting Hosting Connection
 

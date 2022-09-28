@@ -22,15 +22,6 @@ adcgwurl = ${adcgwurl}
 gcp_project_id = "${gcp_project_id}"
 
 
-[adc]
-%{ for name, instance_id in adc_id ~}
-ansible_host=${name} instance_id=${instance_id} ansible_connection=local
-%{ endfor ~}
-
-[adm]
-%{ for name, instance_id in adm_id ~}
-ansible_host=${name} instance_id=${instance_id} ansible_connection=local
-%{ endfor ~}
 
 [domaincontroller]
 %{ for ip in domaincontroller ~}

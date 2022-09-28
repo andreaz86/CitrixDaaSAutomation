@@ -36,16 +36,6 @@ module "domaincontroller" {
   vmname_prefix        = var.vmname_prefix
 }
 
-/* module "storefront" {
-  source               = "./modules/compute_instances/StoreFront"
-  vpc_selfid           = module.vpc.server_vpcself_id
-  storefront_vm        = var.storefront_vm
-  server_subnetself_id = module.vpc.server_subnetself_id
-  username             = var.username
-  password             = var.password
-  vmname_prefix        = var.vmname_prefix
-} */
-
 module "monitoring" {
   source               = "./modules/compute_instances/Monitoring"
   vpc_selfid           = module.vpc.server_vpcself_id
@@ -66,19 +56,6 @@ module "win_vda" {
   vmname_prefix     = var.vmname_prefix
 }
 
-module "adc" {
-  source               = "./modules/compute_instances/ADC"
-  adc_vm               = var.adc_vm
-  vmname_prefix        = var.vmname_prefix
-  server_subnetself_id = module.vpc.server_subnetself_id
-}
-
-module "adm" {
-  source               = "./modules/compute_instances/ADM"
-  adm_vm               = var.adm_vm
-  vmname_prefix        = var.vmname_prefix
-  server_subnetself_id = module.vpc.server_subnetself_id
-}
 
 module "cloud_dns" {
   source              = "./modules/cloud_dns"
@@ -86,18 +63,5 @@ module "cloud_dns" {
   vpc_server_selfid   = module.vpc.server_vpcself_id
   vpc_vda_selfid      = module.vpc.vda_vpcself_id
   domaincontroller_vm = var.domaincontroller_vm
-  #dc_privateip        = module.domaincontroller.out_dc_privateip
 }
 
-
-# resource "local_file" "cc_install" {
-#   content = templatefile("./templates/cc_install.tpl",
-#     {
-#       customername = var.citrix_tenant
-#       citrix_id = var.citrix_id
-#       citrix_secret = var.citrix_secret
-#       #citrix_resloc_id = var.citrix_resloc_id
-#     }
-#   )
-#   filename = "./ansible/roles/cloudconnector/files/cwcconnector_install_params.json"
-# }

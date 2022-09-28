@@ -29,9 +29,6 @@ resource "local_file" "hosts_cfg" {
       deliverygroup_name  = var.deliverygroup_name
       vm2deply            = var.vm2deply
       workspaceurl        = var.workspaceurl
-      adcgwurl            = var.adcgwurl
-      adc_id         = module.adc.adc_instances
-      adm_id         = module.adm.adm_instances
       cc_names       = module.cloudconnector.cc_names
       gcp_project_id = var.gcp_project_id
       cc_names_wem   = module.cloudconnector.cc_names_wem

@@ -1,4 +1,0 @@
-- hosts: adc
-  roles:
-    - adc
-  serial: 1

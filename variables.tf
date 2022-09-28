@@ -66,21 +66,6 @@ variable "cloudconnector_vm" {
   }
 }
 
-variable "storefront_vm" {
-  description = "Citrix Storefront VM config"
-  type        = map(any)
-  default = {
-    stf01 = {
-      name     = "stf01"
-      vmtype   = "n2-standard-2"
-      zone     = "europe-west4-a"
-      ip       = "192.168.3.4"
-      vmimage  = "windows-cloud/windows-2022"
-      disktype = "pd-standard"
-    }
-  }
-}
-
 variable "monitoring_vm" {
   description = "Monitoring VM config"
   type        = map(any)
@@ -93,45 +78,6 @@ variable "monitoring_vm" {
       vmimage  = "ubuntu-os-cloud/ubuntu-2204-lts"
       disktype = "pd-standard"
       disksize = "40"
-    }
-  }
-}
-
-variable "adc_vm" {
-  description = "Citrix ADC "
-  default = {
-    adc01 = {
-      name      = "adc01"
-      vmtype    = "n2-standard-2"
-      zone      = "europe-west4-a"
-      server_ip = "192.168.3.7"
-      snip      = "192.168.3.8"
-      vmimage   = "projects/citrix-master-project/global/images/citrix-adc-vpx-byol-13-1-9-60"
-      disktype  = "pd-standard"
-    }
-    adc02 = {
-      name      = "adc02"
-      vmtype    = "n2-standard-2"
-      zone      = "europe-west4-b"
-      server_ip = "192.168.3.9"
-      snip      = "192.168.3.10"
-      vmimage   = "projects/citrix-master-project/global/images/citrix-adc-vpx-byol-13-1-9-60"
-      disktype  = "pd-standard"
-    }
-  }
-}
-
-
-variable "adm_vm" {
-  description = "Citrix ADM Agent "
-  default = {
-    adm01 = {
-      name      = "adm01"
-      vmtype    = "n2-standard-2"
-      zone      = "europe-west4-a"
-      server_ip = "192.168.3.11"
-      vmimage   = "projects/citrix-master-project/global/images/citrix-adm-agent-13-1-28-21"
-      disktype  = "pd-standard"
     }
   }
 }
@@ -150,10 +96,6 @@ variable "winvda_vm" {
   }
 }
 
-variable "lin_vda_name" {
-  description = "Linux VDA VM name"
-  default     = "linvda01"
-}
 
 #######################################################
 

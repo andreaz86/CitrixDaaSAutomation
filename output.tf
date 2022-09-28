@@ -13,7 +13,3 @@ output "monitoring_external_ip" {
   value = module.monitoring.monitoring_external_ip
 }
 
-output "test" {
-  value = module.cloudconnector.cc_names
-
-}
