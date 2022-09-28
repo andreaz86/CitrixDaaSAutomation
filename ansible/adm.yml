@@ -1,0 +1,3 @@
+- hosts: adm
+  roles:
+    - adm

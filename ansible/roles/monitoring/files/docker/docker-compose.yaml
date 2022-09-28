@@ -1,0 +1,136 @@
+version: '3.7'
+
+networks:
+  apps:
+    driver: bridge
+
+services:
+    mongo:
+      image: mongo:4.4
+      container_name: mongodb
+      networks:
+        - apps
+      volumes:
+       - /var/appdata/mongodb:/data/db
+       - /etc/localtime:/etc/localtime:ro
+      user: 1001:1001
+
+    opensearch:
+      image: opensearchproject/opensearch:1.3.4
+      container_name: opensearch
+      environment:
+        - cluster.name=opensearch-cluster
+        - node.name=opensearch
+        - "OPENSEARCH_JAVA_OPTS=-Xms1024m -Xmx1024m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+        - "DISABLE_SECURITY_PLUGIN=true" # disables security plugin entirely in OpenSearch by setting plugins.security.disabled: true in opensearch.yml
+        - "discovery.type=single-node"
+        - "DISABLE_INSTALL_DEMO_CONFIG=true"
+        - bootstrap.memory_lock=true
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+        nofile:
+          soft: 65536 # maximum number of open files for the OpenSearch user, set to at least 65536 on modern systems
+          hard: 65536
+      volumes:
+        - /var/appdata/opensearch:/usr/share/opensearch/data
+      ports:
+        - 9200:9200
+        - 9600:9600 # required for Performance Analyzer
+      networks:
+        - apps
+
+    graylog:
+      image: graylog/graylog:4.3
+      container_name: graylog
+      environment:
+        # CHANGE ME (must be at least 16 characters)!
+        - GRAYLOG_PASSWORD_SECRET=q4hgMMC6ZPl0IJv16FkqFoxezVvbLlFFPOFu21ysP94aVzguKeCcFO1uB6kHq7Ouw8t9oAVcmfyXfxZIYJknL0pm0iyAN1nV
+        # Password: admin
+        - GRAYLOG_ROOT_PASSWORD_SHA2=be375eb2304a772edfc65c198560d20fce75b4b89667fc933d4c80117637eaa8
+        - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:9000/
+      entrypoint: /usr/bin/tini -- wait-for-it opensearch:9200 --  /docker-entrypoint.sh
+      volumes:
+       - ./graylog/graylog.conf:/usr/share/graylog/data/config/graylog.conf
+       - ./graylog/log4j2.xml:/usr/share/graylog/data/config/log4j2.xml
+       - /etc/localtime:/etc/localtime:ro
+      networks:
+        - apps
+      restart: always
+      depends_on:
+        - mongo
+        - opensearch
+      ports:
+        # Graylog web interface and REST API
+        - 9000:9000
+        # Syslog TCP
+        - 1514:1514
+        # Syslog UDP
+        - 1514:1514/udp
+        # GELF TCP
+        - 12201:12201
+        # GELF UDP
+        - 12201:12201/udp
+        # Beat TCP
+        - 5044:5044
+        - 5045:5045
+        # Metric for Prometheus
+        - 9833:9833
+
+    prometheus:
+      image: prom/prometheus:latest
+      container_name: prometheus
+      expose:
+          - "9090"
+      ports:
+          - "9090:9090"
+      volumes:
+          - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+          - /var/appdata/prometheus:/prometheus
+          - /etc/localtime:/etc/localtime:ro
+      networks:
+          - apps
+      command:
+          - '--config.file=/etc/prometheus/prometheus.yml'
+          - '--storage.tsdb.path=/prometheus'
+          - '--storage.tsdb.retention.time=30d'
+          - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+          - '--web.console.templates=/usr/share/prometheus/consoles'
+          # - '--web.enable-lifecycle'
+      restart: unless-stopped
+      user: 1001:1001
+
+    grafana:
+      depends_on:
+#            - loki
+          - prometheus
+      image: grafana/grafana:latest
+      container_name: grafana
+      ports:
+          - "3000:3000"
+      environment:
+          GF_SECURITY_ADMIN_USER: admin
+          GF_SECURITY_ADMIN_PASSWORD: "!Friskies2019!"
+        #  GF_PATHS_PROVISIONING: '/app.cfg/provisioning'
+      volumes:
+          - /var/appdata/grafana:/var/lib/grafana
+          - ./grafana/grafana_datasources.yml:/etc/grafana/provisioning/datasources/datasources.yaml
+          - /etc/localtime:/etc/localtime:ro
+      networks:
+          - apps
+      restart: unless-stopped
+      user: 1001:1001
+
+    selenium:
+      image: selenium/standalone-chrome:beta
+      container_name: selenium-chrome
+      ports:
+        - "4444:4444"
+        - "7900:7900"
+      shm_size: 2gb
+      networks:
+          - apps
+      restart: unless-stopped
+
+

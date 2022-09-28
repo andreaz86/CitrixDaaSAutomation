@@ -1,0 +1,781 @@
+2022-09-27T14:34:18.358+0200 [INFO]  Terraform version: 1.2.9
+2022-09-27T14:34:18.359+0200 [DEBUG] using github.com/hashicorp/go-tfe v1.0.0
+2022-09-27T14:34:18.359+0200 [DEBUG] using github.com/hashicorp/hcl/v2 v2.12.0
+2022-09-27T14:34:18.359+0200 [DEBUG] using github.com/hashicorp/terraform-config-inspect v0.0.0-20210209133302-4fd17a0faac2
+2022-09-27T14:34:18.359+0200 [DEBUG] using github.com/hashicorp/terraform-svchost v0.0.0-20200729002733-f050f53b9734
+2022-09-27T14:34:18.359+0200 [DEBUG] using github.com/zclconf/go-cty v1.11.0
+2022-09-27T14:34:18.359+0200 [INFO]  Go runtime version: go1.18.1
+2022-09-27T14:34:18.359+0200 [INFO]  CLI args: []string{"terraform", "apply"}
+2022-09-27T14:34:18.359+0200 [TRACE] Stdout is a terminal of width 154
+2022-09-27T14:34:18.359+0200 [TRACE] Stderr is a terminal of width 154
+2022-09-27T14:34:18.359+0200 [TRACE] Stdin is a terminal
+2022-09-27T14:34:18.359+0200 [DEBUG] Attempting to open CLI config file: /home/jabawack/.terraformrc
+2022-09-27T14:34:18.359+0200 [DEBUG] File doesn't exist, but doesn't need to. Ignoring.
+2022-09-27T14:34:18.359+0200 [DEBUG] ignoring non-existing provider search directory terraform.d/plugins
+2022-09-27T14:34:18.359+0200 [DEBUG] ignoring non-existing provider search directory /home/jabawack/.terraform.d/plugins
+2022-09-27T14:34:18.359+0200 [DEBUG] ignoring non-existing provider search directory /home/jabawack/.local/share/terraform/plugins
+2022-09-27T14:34:18.359+0200 [DEBUG] ignoring non-existing provider search directory /usr/local/share/terraform/plugins
+2022-09-27T14:34:18.359+0200 [DEBUG] ignoring non-existing provider search directory /usr/share/terraform/plugins
+2022-09-27T14:34:18.359+0200 [DEBUG] ignoring non-existing provider search directory /var/lib/snapd/desktop/terraform/plugins
+2022-09-27T14:34:18.359+0200 [INFO]  CLI command args: []string{"apply"}
+2022-09-27T14:34:18.361+0200 [TRACE] Meta.Backend: no config given or present on disk, so returning nil config
+2022-09-27T14:34:18.361+0200 [TRACE] Meta.Backend: backend has not previously been initialized in this working directory
+2022-09-27T14:34:18.361+0200 [DEBUG] New state was assigned lineage "4088ba09-b726-d3ad-7a53-bf7fdd893f6f"
+2022-09-27T14:34:18.361+0200 [TRACE] Meta.Backend: using default local state only (no backend configuration, and no existing initialized backend)
+2022-09-27T14:34:18.361+0200 [TRACE] Meta.Backend: instantiated backend of type <nil>
+2022-09-27T14:34:18.361+0200 [TRACE] providercache.fillMetaCache: scanning directory .terraform/providers
+2022-09-27T14:34:18.361+0200 [TRACE] getproviders.SearchLocalDirectory: found registry.terraform.io/citrix/citrixadc v1.23.1 for linux_amd64 at .terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64
+2022-09-27T14:34:18.361+0200 [TRACE] providercache.fillMetaCache: including .terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64 as a candidate package for registry.terraform.io/citrix/citrixadc 1.23.1
+2022-09-27T14:34:18.461+0200 [DEBUG] checking for provisioner in "."
+2022-09-27T14:34:18.463+0200 [DEBUG] checking for provisioner in "/usr/bin"
+2022-09-27T14:34:18.463+0200 [TRACE] Meta.Backend: backend <nil> does not support operations, so wrapping it in a local backend
+2022-09-27T14:34:18.463+0200 [INFO]  backend/local: starting Apply operation
+2022-09-27T14:34:18.463+0200 [TRACE] backend/local: requesting state manager for workspace "default"
+2022-09-27T14:34:18.463+0200 [TRACE] backend/local: state manager for workspace "default" will:
+ - read initial snapshot from terraform.tfstate
+ - write new snapshots to terraform.tfstate
+ - create any backup at terraform.tfstate.backup
+2022-09-27T14:34:18.463+0200 [TRACE] backend/local: requesting state lock for workspace "default"
+2022-09-27T14:34:18.464+0200 [TRACE] statemgr.Filesystem: preparing to manage state snapshots at terraform.tfstate
+2022-09-27T14:34:18.464+0200 [TRACE] statemgr.Filesystem: no previously-stored snapshot exists
+2022-09-27T14:34:18.464+0200 [TRACE] statemgr.Filesystem: locking terraform.tfstate using fcntl flock
+2022-09-27T14:34:18.464+0200 [TRACE] statemgr.Filesystem: writing lock metadata to .terraform.tfstate.lock.info
+2022-09-27T14:34:18.464+0200 [TRACE] backend/local: reading remote state for workspace "default"
+2022-09-27T14:34:18.464+0200 [TRACE] statemgr.Filesystem: reading latest snapshot from terraform.tfstate
+2022-09-27T14:34:18.464+0200 [TRACE] statemgr.Filesystem: snapshot file has nil snapshot, but that's okay
+2022-09-27T14:34:18.464+0200 [TRACE] statemgr.Filesystem: read nil snapshot
+2022-09-27T14:34:18.464+0200 [TRACE] backend/local: populating backend.LocalRun for current working directory
+2022-09-27T14:34:18.464+0200 [TRACE] Config.VerifyDependencySelections: provider registry.terraform.io/citrix/citrixadc has 1.23.1 to satisfy ""
+2022-09-27T14:34:18.464+0200 [TRACE] terraform.NewContext: starting
+2022-09-27T14:34:18.464+0200 [TRACE] terraform.NewContext: complete
+2022-09-27T14:34:18.464+0200 [TRACE] backend/local: requesting interactive input, if necessary
+2022-09-27T14:34:18.464+0200 [TRACE] LoadSchemas: retrieving schema for provider type "registry.terraform.io/citrix/citrixadc"
+2022-09-27T14:34:18.464+0200 [TRACE] terraform.contextPlugins: Initializing provider "registry.terraform.io/citrix/citrixadc" to read its schema
+2022-09-27T14:34:18.464+0200 [DEBUG] created provider logger: level=trace
+2022-09-27T14:34:18.465+0200 [INFO]  provider: configuring client automatic mTLS
+2022-09-27T14:34:18.482+0200 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 args=[.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1]
+2022-09-27T14:34:18.482+0200 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 pid=10460
+2022-09-27T14:34:18.483+0200 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1
+2022-09-27T14:34:18.496+0200 [INFO]  provider.terraform-provider-citrixadc_v1.23.1: configuring server automatic mTLS: timestamp=2022-09-27T14:34:18.496+0200
+2022-09-27T14:34:18.514+0200 [DEBUG] provider: using plugin: version=5
+2022-09-27T14:34:18.514+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: plugin address: address=/tmp/plugin2887299968 network=unix timestamp=2022-09-27T14:34:18.514+0200
+2022-09-27T14:34:18.538+0200 [TRACE] GRPCProvider: GetProviderSchema
+2022-09-27T14:34:18.538+0200 [TRACE] provider.stdio: waiting for stdio data
+2022-09-27T14:34:18.539+0200 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unimplemented desc = unknown service plugin.GRPCStdio"
+2022-09-27T14:34:18.562+0200 [DEBUG] No provider meta schema returned
+2022-09-27T14:34:18.575+0200 [TRACE] GRPCProvider: Close
+2022-09-27T14:34:18.577+0200 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 pid=10460
+2022-09-27T14:34:18.577+0200 [DEBUG] provider: plugin exited
+2022-09-27T14:34:18.577+0200 [TRACE] Context.Input: Prompting for provider arguments
+2022-09-27T14:34:18.577+0200 [TRACE] Context.Input: Provider provider.citrixadc.secondary declared at provider.tf:17,1-21
+2022-09-27T14:34:18.577+0200 [TRACE] Context.Input: Provider provider.citrixadc.primary declared at provider.tf:9,1-21
+2022-09-27T14:34:18.577+0200 [TRACE] Context.Input: Input for provider.citrixadc.secondary: map[string]cty.Value{}
+2022-09-27T14:34:18.577+0200 [TRACE] Context.Input: Input for provider.citrixadc.primary: map[string]cty.Value{}
+2022-09-27T14:34:18.577+0200 [TRACE] backend/local: running validation operation
+2022-09-27T14:34:18.577+0200 [DEBUG] Building and walking validate graph
+2022-09-27T14:34:18.577+0200 [TRACE] Executing graph transform *terraform.ConfigTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] ConfigTransformer: Starting for path:
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.ConfigTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+  ------
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.RootVariableTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.RootVariableTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.ModuleVariableTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.ModuleVariableTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.LocalTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.LocalTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.OutputTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.OutputTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.OrphanResourceInstanceTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.OrphanResourceInstanceTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.StateTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] StateTransformer: creating nodes for deposed instance objects only
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.StateTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.AttachStateTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.AttachStateTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.OrphanOutputTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.OrphanOutputTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.AttachResourceConfigTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] AttachResourceConfigTransformer: attaching to "citrixadc_password_resetter.secondary_resetpwd" (*terraform.NodeValidatableResource) config from resource.tf:8,1-60
+2022-09-27T14:34:18.578+0200 [TRACE] AttachResourceConfigTransformer: attaching provider meta configs to citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.AttachResourceConfigTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.graphTransformerMulti
+2022-09-27T14:34:18.578+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.ProviderConfigTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] ProviderConfigTransformer: attaching to "provider[\"registry.terraform.io/citrix/citrixadc\"].primary" provider configuration from provider.tf:9,1-21
+2022-09-27T14:34:18.578+0200 [TRACE] ProviderConfigTransformer: attaching to "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" provider configuration from provider.tf:17,1-21
+2022-09-27T14:34:18.578+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.ProviderConfigTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+  provider["registry.terraform.io/citrix/citrixadc"] - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].primary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.578+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.MissingProviderTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.MissingProviderTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.ProviderTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] ProviderTransformer: exact match for provider["registry.terraform.io/citrix/citrixadc"].secondary serving citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.578+0200 [DEBUG] ProviderTransformer: "citrixadc_password_resetter.secondary_resetpwd" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.578+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.ProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"] - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].primary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.578+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.PruneProviderTransformer
+2022-09-27T14:34:18.578+0200 [DEBUG] pruning unused provider["registry.terraform.io/citrix/citrixadc"]
+2022-09-27T14:34:18.578+0200 [DEBUG] pruning unused provider["registry.terraform.io/citrix/citrixadc"].primary
+2022-09-27T14:34:18.578+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.PruneProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.graphTransformerMulti with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.RemovedModuleTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.RemovedModuleTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.AttachSchemaTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] AttachSchemaTransformer: attaching provider config schema to provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.578+0200 [TRACE] AttachSchemaTransformer: attaching resource schema to citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.AttachSchemaTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.ModuleExpansionTransformer
+2022-09-27T14:34:18.578+0200 [TRACE] Completed graph transform *terraform.ModuleExpansionTransformer (no changes)
+2022-09-27T14:34:18.578+0200 [TRACE] Executing graph transform *terraform.ReferenceTransformer
+2022-09-27T14:34:18.579+0200 [DEBUG] ReferenceTransformer: "citrixadc_password_resetter.secondary_resetpwd" references: []
+2022-09-27T14:34:18.579+0200 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" references: []
+2022-09-27T14:34:18.579+0200 [TRACE] Completed graph transform *terraform.ReferenceTransformer (no changes)
+2022-09-27T14:34:18.579+0200 [TRACE] Executing graph transform *terraform.AttachDependenciesTransformer
+2022-09-27T14:34:18.579+0200 [TRACE] Completed graph transform *terraform.AttachDependenciesTransformer (no changes)
+2022-09-27T14:34:18.579+0200 [TRACE] Executing graph transform *terraform.attachDataResourceDependsOnTransformer
+2022-09-27T14:34:18.579+0200 [TRACE] Completed graph transform *terraform.attachDataResourceDependsOnTransformer (no changes)
+2022-09-27T14:34:18.579+0200 [TRACE] Executing graph transform *terraform.TargetsTransformer
+2022-09-27T14:34:18.579+0200 [TRACE] Completed graph transform *terraform.TargetsTransformer (no changes)
+2022-09-27T14:34:18.579+0200 [TRACE] Executing graph transform *terraform.ForcedCBDTransformer
+2022-09-27T14:34:18.579+0200 [TRACE] Completed graph transform *terraform.ForcedCBDTransformer (no changes)
+2022-09-27T14:34:18.579+0200 [TRACE] Executing graph transform *terraform.CloseProviderTransformer
+2022-09-27T14:34:18.579+0200 [TRACE] Completed graph transform *terraform.CloseProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.579+0200 [TRACE] Executing graph transform *terraform.CloseRootModuleTransformer
+2022-09-27T14:34:18.579+0200 [TRACE] Completed graph transform *terraform.CloseRootModuleTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  root - *terraform.nodeCloseModule
+    provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+  ------
+2022-09-27T14:34:18.579+0200 [TRACE] Executing graph transform *terraform.TransitiveReductionTransformer
+2022-09-27T14:34:18.579+0200 [TRACE] Completed graph transform *terraform.TransitiveReductionTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeValidatableResource
+  root - *terraform.nodeCloseModule
+    provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+  ------
+2022-09-27T14:34:18.579+0200 [DEBUG] Starting graph walk: walkValidate
+2022-09-27T14:34:18.579+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary": starting visit (*terraform.NodeApplyableProvider)
+2022-09-27T14:34:18.579+0200 [DEBUG] created provider logger: level=trace
+2022-09-27T14:34:18.579+0200 [INFO]  provider: configuring client automatic mTLS
+2022-09-27T14:34:18.596+0200 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 args=[.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1]
+2022-09-27T14:34:18.597+0200 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 pid=10474
+2022-09-27T14:34:18.597+0200 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1
+2022-09-27T14:34:18.611+0200 [INFO]  provider.terraform-provider-citrixadc_v1.23.1: configuring server automatic mTLS: timestamp=2022-09-27T14:34:18.611+0200
+2022-09-27T14:34:18.629+0200 [DEBUG] provider: using plugin: version=5
+2022-09-27T14:34:18.629+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: plugin address: address=/tmp/plugin1982196584 network=unix timestamp=2022-09-27T14:34:18.629+0200
+2022-09-27T14:34:18.652+0200 [TRACE] BuiltinEvalContext: Initialized "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" provider for provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.652+0200 [TRACE] NodeApplyableProvider: validating configuration for provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.652+0200 [TRACE] buildProviderConfig for provider["registry.terraform.io/citrix/citrixadc"].secondary: using explicit config only
+2022-09-27T14:34:18.652+0200 [TRACE] GRPCProvider: GetProviderSchema
+2022-09-27T14:34:18.652+0200 [TRACE] provider.stdio: waiting for stdio data
+2022-09-27T14:34:18.653+0200 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unimplemented desc = unknown service plugin.GRPCStdio"
+2022-09-27T14:34:18.674+0200 [DEBUG] No provider meta schema returned
+2022-09-27T14:34:18.685+0200 [TRACE] GRPCProvider: ValidateProviderConfig
+2022-09-27T14:34:18.710+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary": visit complete
+2022-09-27T14:34:18.710+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": starting visit (*terraform.NodeValidatableResource)
+2022-09-27T14:34:18.710+0200 [TRACE] GRPCProvider: ValidateResourceConfig
+2022-09-27T14:34:18.711+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": visit complete
+2022-09-27T14:34:18.711+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary (close)": starting visit (*terraform.graphNodeCloseProvider)
+2022-09-27T14:34:18.711+0200 [TRACE] GRPCProvider: Close
+2022-09-27T14:34:18.712+0200 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 pid=10474
+2022-09-27T14:34:18.713+0200 [DEBUG] provider: plugin exited
+2022-09-27T14:34:18.713+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary (close)": visit complete
+2022-09-27T14:34:18.713+0200 [TRACE] vertex "root": starting visit (*terraform.nodeCloseModule)
+2022-09-27T14:34:18.713+0200 [TRACE] vertex "root": visit complete
+2022-09-27T14:34:18.713+0200 [INFO]  backend/local: apply calling Plan
+2022-09-27T14:34:18.713+0200 [DEBUG] Building and walking plan graph for NormalMode
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.ConfigTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] ConfigTransformer: Starting for path:
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.ConfigTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+  ------
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.RootVariableTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.RootVariableTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.ModuleVariableTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.ModuleVariableTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.LocalTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.LocalTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.OutputTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.OutputTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.OrphanResourceInstanceTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.OrphanResourceInstanceTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.StateTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] StateTransformer: creating nodes for deposed instance objects only
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.StateTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.AttachStateTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.AttachStateTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.OrphanOutputTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.OrphanOutputTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.AttachResourceConfigTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] AttachResourceConfigTransformer: attaching to "citrixadc_password_resetter.secondary_resetpwd (expand)" (*terraform.nodeExpandPlannableResource) config from resource.tf:8,1-60
+2022-09-27T14:34:18.713+0200 [TRACE] AttachResourceConfigTransformer: attaching provider meta configs to citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.AttachResourceConfigTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.graphTransformerMulti
+2022-09-27T14:34:18.713+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.ProviderConfigTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] ProviderConfigTransformer: attaching to "provider[\"registry.terraform.io/citrix/citrixadc\"].primary" provider configuration from provider.tf:9,1-21
+2022-09-27T14:34:18.713+0200 [TRACE] ProviderConfigTransformer: attaching to "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" provider configuration from provider.tf:17,1-21
+2022-09-27T14:34:18.713+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.ProviderConfigTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+  provider["registry.terraform.io/citrix/citrixadc"] - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].primary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.713+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.MissingProviderTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.MissingProviderTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.ProviderTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] ProviderTransformer: exact match for provider["registry.terraform.io/citrix/citrixadc"].secondary serving citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:18.713+0200 [DEBUG] ProviderTransformer: "citrixadc_password_resetter.secondary_resetpwd (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.713+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.ProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"] - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].primary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.713+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.PruneProviderTransformer
+2022-09-27T14:34:18.713+0200 [DEBUG] pruning unused provider["registry.terraform.io/citrix/citrixadc"]
+2022-09-27T14:34:18.713+0200 [DEBUG] pruning unused provider["registry.terraform.io/citrix/citrixadc"].primary
+2022-09-27T14:34:18.713+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.PruneProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.graphTransformerMulti with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.RemovedModuleTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.RemovedModuleTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.AttachSchemaTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] AttachSchemaTransformer: attaching provider config schema to provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.713+0200 [TRACE] AttachSchemaTransformer: attaching resource schema to citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.AttachSchemaTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.ModuleExpansionTransformer
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.ModuleExpansionTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.ReferenceTransformer
+2022-09-27T14:34:18.713+0200 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" references: []
+2022-09-27T14:34:18.713+0200 [DEBUG] ReferenceTransformer: "citrixadc_password_resetter.secondary_resetpwd (expand)" references: []
+2022-09-27T14:34:18.713+0200 [TRACE] Completed graph transform *terraform.ReferenceTransformer (no changes)
+2022-09-27T14:34:18.713+0200 [TRACE] Executing graph transform *terraform.AttachDependenciesTransformer
+2022-09-27T14:34:18.714+0200 [TRACE] AttachDependenciesTransformer: citrixadc_password_resetter.secondary_resetpwd depends on []
+2022-09-27T14:34:18.714+0200 [TRACE] Completed graph transform *terraform.AttachDependenciesTransformer (no changes)
+2022-09-27T14:34:18.714+0200 [TRACE] Executing graph transform *terraform.attachDataResourceDependsOnTransformer
+2022-09-27T14:34:18.714+0200 [TRACE] Completed graph transform *terraform.attachDataResourceDependsOnTransformer (no changes)
+2022-09-27T14:34:18.714+0200 [TRACE] Executing graph transform *terraform.TargetsTransformer
+2022-09-27T14:34:18.714+0200 [TRACE] Completed graph transform *terraform.TargetsTransformer (no changes)
+2022-09-27T14:34:18.714+0200 [TRACE] Executing graph transform *terraform.ForcedCBDTransformer
+2022-09-27T14:34:18.714+0200 [TRACE] ForcedCBDTransformer: "citrixadc_password_resetter.secondary_resetpwd (expand)" (*terraform.nodeExpandPlannableResource) has no CBD descendent, so skipping
+2022-09-27T14:34:18.714+0200 [TRACE] Completed graph transform *terraform.ForcedCBDTransformer (no changes)
+2022-09-27T14:34:18.714+0200 [TRACE] Executing graph transform *terraform.CloseProviderTransformer
+2022-09-27T14:34:18.714+0200 [TRACE] Completed graph transform *terraform.CloseProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.714+0200 [TRACE] Executing graph transform *terraform.CloseRootModuleTransformer
+2022-09-27T14:34:18.714+0200 [TRACE] Completed graph transform *terraform.CloseRootModuleTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  root - *terraform.nodeCloseModule
+    provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+  ------
+2022-09-27T14:34:18.714+0200 [TRACE] Executing graph transform *terraform.TransitiveReductionTransformer
+2022-09-27T14:34:18.714+0200 [TRACE] Completed graph transform *terraform.TransitiveReductionTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandPlannableResource
+  root - *terraform.nodeCloseModule
+    provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+  ------
+2022-09-27T14:34:18.714+0200 [DEBUG] Starting graph walk: walkPlan
+2022-09-27T14:34:18.714+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary": starting visit (*terraform.NodeApplyableProvider)
+2022-09-27T14:34:18.714+0200 [DEBUG] created provider logger: level=trace
+2022-09-27T14:34:18.714+0200 [INFO]  provider: configuring client automatic mTLS
+2022-09-27T14:34:18.731+0200 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 args=[.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1]
+2022-09-27T14:34:18.732+0200 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 pid=10488
+2022-09-27T14:34:18.732+0200 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1
+2022-09-27T14:34:18.748+0200 [INFO]  provider.terraform-provider-citrixadc_v1.23.1: configuring server automatic mTLS: timestamp=2022-09-27T14:34:18.747+0200
+2022-09-27T14:34:18.765+0200 [DEBUG] provider: using plugin: version=5
+2022-09-27T14:34:18.765+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: plugin address: address=/tmp/plugin1662699722 network=unix timestamp=2022-09-27T14:34:18.765+0200
+2022-09-27T14:34:18.788+0200 [TRACE] BuiltinEvalContext: Initialized "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" provider for provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.788+0200 [TRACE] NodeApplyableProvider: configuring provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.788+0200 [TRACE] provider.stdio: waiting for stdio data
+2022-09-27T14:34:18.788+0200 [TRACE] buildProviderConfig for provider["registry.terraform.io/citrix/citrixadc"].secondary: using explicit config only
+2022-09-27T14:34:18.788+0200 [TRACE] GRPCProvider: GetProviderSchema
+2022-09-27T14:34:18.789+0200 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unimplemented desc = unknown service plugin.GRPCStdio"
+2022-09-27T14:34:18.810+0200 [DEBUG] No provider meta schema returned
+2022-09-27T14:34:18.822+0200 [TRACE] GRPCProvider: ValidateProviderConfig
+2022-09-27T14:34:18.848+0200 [WARN]  ValidateProviderConfig from "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" changed the config value, but that value is unused
+2022-09-27T14:34:18.848+0200 [TRACE] GRPCProvider: ConfigureProvider
+2022-09-27T14:34:18.848+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: 2022/09/27 14:34:18 [DEBUG] citrixadc-provider: Terraform version imported: 0.12.20
+2022-09-27T14:34:18.849+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary": visit complete
+2022-09-27T14:34:18.849+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": starting visit (*terraform.nodeExpandPlannableResource)
+2022-09-27T14:34:18.849+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": expanding dynamic subgraph
+2022-09-27T14:34:18.849+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": entering dynamic subgraph
+2022-09-27T14:34:18.849+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": starting visit (*terraform.NodePlannableResource)
+2022-09-27T14:34:18.849+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": expanding dynamic subgraph
+2022-09-27T14:34:18.849+0200 [TRACE] Executing graph transform *terraform.ResourceCountTransformer
+2022-09-27T14:34:18.849+0200 [TRACE] ResourceCountTransformer: adding citrixadc_password_resetter.secondary_resetpwd as *terraform.NodePlannableResourceInstance
+2022-09-27T14:34:18.849+0200 [TRACE] Completed graph transform *terraform.ResourceCountTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodePlannableResourceInstance
+  ------
+2022-09-27T14:34:18.849+0200 [TRACE] Executing graph transform *terraform.OrphanResourceInstanceCountTransformer
+2022-09-27T14:34:18.849+0200 [TRACE] Completed graph transform *terraform.OrphanResourceInstanceCountTransformer (no changes)
+2022-09-27T14:34:18.849+0200 [TRACE] Executing graph transform *terraform.AttachStateTransformer
+2022-09-27T14:34:18.849+0200 [DEBUG] Resource instance state not found for node "citrixadc_password_resetter.secondary_resetpwd", instance citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] Completed graph transform *terraform.AttachStateTransformer (no changes)
+2022-09-27T14:34:18.849+0200 [TRACE] Executing graph transform *terraform.TargetsTransformer
+2022-09-27T14:34:18.849+0200 [TRACE] Completed graph transform *terraform.TargetsTransformer (no changes)
+2022-09-27T14:34:18.849+0200 [TRACE] Executing graph transform *terraform.ReferenceTransformer
+2022-09-27T14:34:18.849+0200 [DEBUG] ReferenceTransformer: "citrixadc_password_resetter.secondary_resetpwd" references: []
+2022-09-27T14:34:18.849+0200 [TRACE] Completed graph transform *terraform.ReferenceTransformer (no changes)
+2022-09-27T14:34:18.849+0200 [TRACE] Executing graph transform *terraform.RootTransformer
+2022-09-27T14:34:18.849+0200 [TRACE] Completed graph transform *terraform.RootTransformer (no changes)
+2022-09-27T14:34:18.849+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": entering dynamic subgraph
+2022-09-27T14:34:18.849+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": starting visit (*terraform.NodePlannableResourceInstance)
+2022-09-27T14:34:18.849+0200 [TRACE] readResourceInstanceState: reading state for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] readResourceInstanceState: no state present for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState to prevRunState for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState: removing state object for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState to refreshState for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState: removing state object for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] NodeAbstractResourceInstance.refresh for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [DEBUG] refresh: citrixadc_password_resetter.secondary_resetpwd: no state, so not refreshing
+2022-09-27T14:34:18.849+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState to refreshState for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState: removing state object for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.849+0200 [TRACE] Re-validating config for "citrixadc_password_resetter.secondary_resetpwd"
+2022-09-27T14:34:18.849+0200 [TRACE] GRPCProvider: ValidateResourceConfig
+2022-09-27T14:34:18.850+0200 [TRACE] GRPCProvider: PlanResourceChange
+2022-09-27T14:34:18.851+0200 [TRACE] writeChange: recorded Create change for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.851+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState to workingState for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.851+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState: writing state object for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.851+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": visit complete
+2022-09-27T14:34:18.851+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": dynamic subgraph completed successfully
+2022-09-27T14:34:18.851+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": visit complete
+2022-09-27T14:34:18.851+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": dynamic subgraph completed successfully
+2022-09-27T14:34:18.851+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": visit complete
+2022-09-27T14:34:18.851+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary (close)": starting visit (*terraform.graphNodeCloseProvider)
+2022-09-27T14:34:18.851+0200 [TRACE] GRPCProvider: Close
+2022-09-27T14:34:18.853+0200 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 pid=10488
+2022-09-27T14:34:18.853+0200 [DEBUG] provider: plugin exited
+2022-09-27T14:34:18.853+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary (close)": visit complete
+2022-09-27T14:34:18.853+0200 [TRACE] vertex "root": starting visit (*terraform.nodeCloseModule)
+2022-09-27T14:34:18.853+0200 [TRACE] vertex "root": visit complete
+2022-09-27T14:34:18.853+0200 [TRACE] LoadSchemas: retrieving schema for provider type "registry.terraform.io/citrix/citrixadc"
+2022-09-27T14:34:18.853+0200 [DEBUG] building apply graph to check for errors
+2022-09-27T14:34:18.853+0200 [TRACE] Executing graph transform *terraform.ConfigTransformer
+2022-09-27T14:34:18.853+0200 [TRACE] ConfigTransformer: Starting for path:
+2022-09-27T14:34:18.853+0200 [TRACE] Completed graph transform *terraform.ConfigTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  ------
+2022-09-27T14:34:18.853+0200 [TRACE] Executing graph transform *terraform.RootVariableTransformer
+2022-09-27T14:34:18.853+0200 [TRACE] Completed graph transform *terraform.RootVariableTransformer (no changes)
+2022-09-27T14:34:18.853+0200 [TRACE] Executing graph transform *terraform.ModuleVariableTransformer
+2022-09-27T14:34:18.853+0200 [TRACE] Completed graph transform *terraform.ModuleVariableTransformer (no changes)
+2022-09-27T14:34:18.853+0200 [TRACE] Executing graph transform *terraform.LocalTransformer
+2022-09-27T14:34:18.853+0200 [TRACE] Completed graph transform *terraform.LocalTransformer (no changes)
+2022-09-27T14:34:18.853+0200 [TRACE] Executing graph transform *terraform.OutputTransformer
+2022-09-27T14:34:18.853+0200 [TRACE] Completed graph transform *terraform.OutputTransformer (no changes)
+2022-09-27T14:34:18.853+0200 [TRACE] Executing graph transform *terraform.DiffTransformer
+2022-09-27T14:34:18.853+0200 [TRACE] DiffTransformer starting
+2022-09-27T14:34:18.853+0200 [TRACE] DiffTransformer: found Create change for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.853+0200 [TRACE] DiffTransformer: citrixadc_password_resetter.secondary_resetpwd will be represented by citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.853+0200 [TRACE] DiffTransformer complete
+2022-09-27T14:34:18.853+0200 [TRACE] Completed graph transform *terraform.DiffTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  ------
+2022-09-27T14:34:18.853+0200 [TRACE] Executing graph transform *terraform.AttachStateTransformer
+2022-09-27T14:34:18.853+0200 [DEBUG] Resource state not found for node "citrixadc_password_resetter.secondary_resetpwd", instance citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.853+0200 [TRACE] Completed graph transform *terraform.AttachStateTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.OrphanOutputTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.OrphanOutputTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.AttachResourceConfigTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] AttachResourceConfigTransformer: attaching to "citrixadc_password_resetter.secondary_resetpwd (expand)" (*terraform.nodeExpandApplyableResource) config from resource.tf:8,1-60
+2022-09-27T14:34:18.854+0200 [TRACE] AttachResourceConfigTransformer: attaching provider meta configs to citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:18.854+0200 [TRACE] AttachResourceConfigTransformer: attaching to "citrixadc_password_resetter.secondary_resetpwd" (*terraform.NodeApplyableResourceInstance) config from resource.tf:8,1-60
+2022-09-27T14:34:18.854+0200 [TRACE] AttachResourceConfigTransformer: attaching provider meta configs to citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.AttachResourceConfigTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.graphTransformerMulti
+2022-09-27T14:34:18.854+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.ProviderConfigTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] ProviderConfigTransformer: attaching to "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" provider configuration from provider.tf:17,1-21
+2022-09-27T14:34:18.854+0200 [TRACE] ProviderConfigTransformer: attaching to "provider[\"registry.terraform.io/citrix/citrixadc\"].primary" provider configuration from provider.tf:9,1-21
+2022-09-27T14:34:18.854+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.ProviderConfigTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  provider["registry.terraform.io/citrix/citrixadc"] - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].primary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.854+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.MissingProviderTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.MissingProviderTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.ProviderTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] ProviderTransformer: exact match for provider["registry.terraform.io/citrix/citrixadc"].secondary serving citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:18.854+0200 [DEBUG] ProviderTransformer: "citrixadc_password_resetter.secondary_resetpwd (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.854+0200 [TRACE] ProviderTransformer: exact match for provider["registry.terraform.io/citrix/citrixadc"].secondary serving citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.854+0200 [DEBUG] ProviderTransformer: "citrixadc_password_resetter.secondary_resetpwd" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.854+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.ProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"] - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].primary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.854+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.PruneProviderTransformer
+2022-09-27T14:34:18.854+0200 [DEBUG] pruning unused provider["registry.terraform.io/citrix/citrixadc"].primary
+2022-09-27T14:34:18.854+0200 [DEBUG] pruning unused provider["registry.terraform.io/citrix/citrixadc"]
+2022-09-27T14:34:18.854+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.PruneProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.graphTransformerMulti with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.RemovedModuleTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.RemovedModuleTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.AttachSchemaTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] AttachSchemaTransformer: attaching provider config schema to provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:18.854+0200 [TRACE] AttachSchemaTransformer: attaching resource schema to citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:18.854+0200 [TRACE] AttachSchemaTransformer: attaching resource schema to citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.AttachSchemaTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.ModuleExpansionTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.ModuleExpansionTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.ReferenceTransformer
+2022-09-27T14:34:18.854+0200 [DEBUG] ReferenceTransformer: "citrixadc_password_resetter.secondary_resetpwd (expand)" references: []
+2022-09-27T14:34:18.854+0200 [DEBUG] ReferenceTransformer: "citrixadc_password_resetter.secondary_resetpwd" references: []
+2022-09-27T14:34:18.854+0200 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" references: []
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.ReferenceTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.AttachDependenciesTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] AttachDependenciesTransformer: citrixadc_password_resetter.secondary_resetpwd depends on []
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.AttachDependenciesTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.ForcedCBDTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] ForcedCBDTransformer: "citrixadc_password_resetter.secondary_resetpwd" (*terraform.NodeApplyableResourceInstance) has no CBD descendent, so skipping
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.ForcedCBDTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.DestroyEdgeTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.DestroyEdgeTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.CBDEdgeTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.CBDEdgeTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.pruneUnusedNodesTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.pruneUnusedNodesTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.TargetsTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.TargetsTransformer (no changes)
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.CloseProviderTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.CloseProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.CloseRootModuleTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.CloseRootModuleTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  root - *terraform.nodeCloseModule
+    provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+  ------
+2022-09-27T14:34:18.854+0200 [TRACE] Executing graph transform *terraform.TransitiveReductionTransformer
+2022-09-27T14:34:18.854+0200 [TRACE] Completed graph transform *terraform.TransitiveReductionTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+  root - *terraform.nodeCloseModule
+    provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+  ------
+2022-09-27T14:34:18.855+0200 [TRACE] LoadSchemas: retrieving schema for provider type "registry.terraform.io/citrix/citrixadc"
+2022-09-27T14:34:18.855+0200 [DEBUG] command: asking for input: "\nDo you want to perform these actions?"
+2022-09-27T14:34:32.620+0200 [INFO]  backend/local: apply calling Apply
+2022-09-27T14:34:32.620+0200 [DEBUG] Building and walking apply graph for NormalMode plan
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.ConfigTransformer
+2022-09-27T14:34:32.620+0200 [TRACE] ConfigTransformer: Starting for path:
+2022-09-27T14:34:32.620+0200 [TRACE] Completed graph transform *terraform.ConfigTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  ------
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.RootVariableTransformer
+2022-09-27T14:34:32.620+0200 [TRACE] Completed graph transform *terraform.RootVariableTransformer (no changes)
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.ModuleVariableTransformer
+2022-09-27T14:34:32.620+0200 [TRACE] Completed graph transform *terraform.ModuleVariableTransformer (no changes)
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.LocalTransformer
+2022-09-27T14:34:32.620+0200 [TRACE] Completed graph transform *terraform.LocalTransformer (no changes)
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.OutputTransformer
+2022-09-27T14:34:32.620+0200 [TRACE] Completed graph transform *terraform.OutputTransformer (no changes)
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.DiffTransformer
+2022-09-27T14:34:32.620+0200 [TRACE] DiffTransformer starting
+2022-09-27T14:34:32.620+0200 [TRACE] DiffTransformer: found Create change for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.620+0200 [TRACE] DiffTransformer: citrixadc_password_resetter.secondary_resetpwd will be represented by citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.620+0200 [TRACE] DiffTransformer complete
+2022-09-27T14:34:32.620+0200 [TRACE] Completed graph transform *terraform.DiffTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  ------
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.AttachStateTransformer
+2022-09-27T14:34:32.620+0200 [DEBUG] Resource state not found for node "citrixadc_password_resetter.secondary_resetpwd", instance citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.620+0200 [TRACE] Completed graph transform *terraform.AttachStateTransformer (no changes)
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.OrphanOutputTransformer
+2022-09-27T14:34:32.620+0200 [TRACE] Completed graph transform *terraform.OrphanOutputTransformer (no changes)
+2022-09-27T14:34:32.620+0200 [TRACE] Executing graph transform *terraform.AttachResourceConfigTransformer
+2022-09-27T14:34:32.620+0200 [TRACE] AttachResourceConfigTransformer: attaching to "citrixadc_password_resetter.secondary_resetpwd (expand)" (*terraform.nodeExpandApplyableResource) config from resource.tf:8,1-60
+2022-09-27T14:34:32.621+0200 [TRACE] AttachResourceConfigTransformer: attaching provider meta configs to citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:32.621+0200 [TRACE] AttachResourceConfigTransformer: attaching to "citrixadc_password_resetter.secondary_resetpwd" (*terraform.NodeApplyableResourceInstance) config from resource.tf:8,1-60
+2022-09-27T14:34:32.621+0200 [TRACE] AttachResourceConfigTransformer: attaching provider meta configs to citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.621+0200 [TRACE] Completed graph transform *terraform.AttachResourceConfigTransformer (no changes)
+2022-09-27T14:34:32.621+0200 [TRACE] Executing graph transform *terraform.graphTransformerMulti
+2022-09-27T14:34:32.621+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.ProviderConfigTransformer
+2022-09-27T14:34:32.621+0200 [TRACE] ProviderConfigTransformer: attaching to "provider[\"registry.terraform.io/citrix/citrixadc\"].primary" provider configuration from provider.tf:9,1-21
+2022-09-27T14:34:32.621+0200 [TRACE] ProviderConfigTransformer: attaching to "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" provider configuration from provider.tf:17,1-21
+2022-09-27T14:34:32.621+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.ProviderConfigTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  provider["registry.terraform.io/citrix/citrixadc"] - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].primary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:32.621+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.MissingProviderTransformer
+2022-09-27T14:34:32.621+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.MissingProviderTransformer (no changes)
+2022-09-27T14:34:32.621+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.ProviderTransformer
+2022-09-27T14:34:32.621+0200 [TRACE] ProviderTransformer: exact match for provider["registry.terraform.io/citrix/citrixadc"].secondary serving citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:32.621+0200 [DEBUG] ProviderTransformer: "citrixadc_password_resetter.secondary_resetpwd (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:32.621+0200 [TRACE] ProviderTransformer: exact match for provider["registry.terraform.io/citrix/citrixadc"].secondary serving citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.621+0200 [DEBUG] ProviderTransformer: "citrixadc_password_resetter.secondary_resetpwd" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:32.621+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.ProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"] - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].primary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:32.621+0200 [TRACE] (graphTransformerMulti) Executing graph transform *terraform.PruneProviderTransformer
+2022-09-27T14:34:32.621+0200 [DEBUG] pruning unused provider["registry.terraform.io/citrix/citrixadc"]
+2022-09-27T14:34:32.621+0200 [DEBUG] pruning unused provider["registry.terraform.io/citrix/citrixadc"].primary
+2022-09-27T14:34:32.621+0200 [TRACE] (graphTransformerMulti) Completed graph transform *terraform.PruneProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:32.621+0200 [TRACE] Completed graph transform *terraform.graphTransformerMulti with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:32.621+0200 [TRACE] Executing graph transform *terraform.RemovedModuleTransformer
+2022-09-27T14:34:32.621+0200 [TRACE] Completed graph transform *terraform.RemovedModuleTransformer (no changes)
+2022-09-27T14:34:32.621+0200 [TRACE] Executing graph transform *terraform.AttachSchemaTransformer
+2022-09-27T14:34:32.621+0200 [TRACE] AttachSchemaTransformer: attaching provider config schema to provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:32.621+0200 [TRACE] AttachSchemaTransformer: attaching resource schema to citrixadc_password_resetter.secondary_resetpwd (expand)
+2022-09-27T14:34:32.621+0200 [TRACE] AttachSchemaTransformer: attaching resource schema to citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.621+0200 [TRACE] Completed graph transform *terraform.AttachSchemaTransformer (no changes)
+2022-09-27T14:34:32.621+0200 [TRACE] Executing graph transform *terraform.ModuleExpansionTransformer
+2022-09-27T14:34:32.621+0200 [TRACE] Completed graph transform *terraform.ModuleExpansionTransformer (no changes)
+2022-09-27T14:34:32.621+0200 [TRACE] Executing graph transform *terraform.ReferenceTransformer
+2022-09-27T14:34:32.621+0200 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" references: []
+2022-09-27T14:34:32.622+0200 [DEBUG] ReferenceTransformer: "citrixadc_password_resetter.secondary_resetpwd (expand)" references: []
+2022-09-27T14:34:32.622+0200 [DEBUG] ReferenceTransformer: "citrixadc_password_resetter.secondary_resetpwd" references: []
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.ReferenceTransformer (no changes)
+2022-09-27T14:34:32.622+0200 [TRACE] Executing graph transform *terraform.AttachDependenciesTransformer
+2022-09-27T14:34:32.622+0200 [TRACE] AttachDependenciesTransformer: citrixadc_password_resetter.secondary_resetpwd depends on []
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.AttachDependenciesTransformer (no changes)
+2022-09-27T14:34:32.622+0200 [TRACE] Executing graph transform *terraform.ForcedCBDTransformer
+2022-09-27T14:34:32.622+0200 [TRACE] ForcedCBDTransformer: "citrixadc_password_resetter.secondary_resetpwd" (*terraform.NodeApplyableResourceInstance) has no CBD descendent, so skipping
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.ForcedCBDTransformer (no changes)
+2022-09-27T14:34:32.622+0200 [TRACE] Executing graph transform *terraform.DestroyEdgeTransformer
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.DestroyEdgeTransformer (no changes)
+2022-09-27T14:34:32.622+0200 [TRACE] Executing graph transform *terraform.CBDEdgeTransformer
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.CBDEdgeTransformer (no changes)
+2022-09-27T14:34:32.622+0200 [TRACE] Executing graph transform *terraform.pruneUnusedNodesTransformer
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.pruneUnusedNodesTransformer (no changes)
+2022-09-27T14:34:32.622+0200 [TRACE] Executing graph transform *terraform.TargetsTransformer
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.TargetsTransformer (no changes)
+2022-09-27T14:34:32.622+0200 [TRACE] Executing graph transform *terraform.CloseProviderTransformer
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.CloseProviderTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  ------
+2022-09-27T14:34:32.622+0200 [TRACE] Executing graph transform *terraform.CloseRootModuleTransformer
+2022-09-27T14:34:32.622+0200 [TRACE] Completed graph transform *terraform.CloseRootModuleTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  root - *terraform.nodeCloseModule
+    provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+  ------
+2022-09-27T14:34:32.623+0200 [TRACE] Executing graph transform *terraform.TransitiveReductionTransformer
+2022-09-27T14:34:32.623+0200 [TRACE] Completed graph transform *terraform.TransitiveReductionTransformer with new graph:
+  citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+    citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+  citrixadc_password_resetter.secondary_resetpwd (expand) - *terraform.nodeExpandApplyableResource
+    provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary - *terraform.NodeApplyableProvider
+  provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+    citrixadc_password_resetter.secondary_resetpwd - *terraform.NodeApplyableResourceInstance
+  root - *terraform.nodeCloseModule
+    provider["registry.terraform.io/citrix/citrixadc"].secondary (close) - *terraform.graphNodeCloseProvider
+  ------
+2022-09-27T14:34:32.623+0200 [DEBUG] Starting graph walk: walkApply
+2022-09-27T14:34:32.623+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary": starting visit (*terraform.NodeApplyableProvider)
+2022-09-27T14:34:32.623+0200 [DEBUG] created provider logger: level=trace
+2022-09-27T14:34:32.624+0200 [INFO]  provider: configuring client automatic mTLS
+2022-09-27T14:34:32.644+0200 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 args=[.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1]
+2022-09-27T14:34:32.644+0200 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 pid=10540
+2022-09-27T14:34:32.645+0200 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1
+2022-09-27T14:34:32.661+0200 [INFO]  provider.terraform-provider-citrixadc_v1.23.1: configuring server automatic mTLS: timestamp=2022-09-27T14:34:32.661+0200
+2022-09-27T14:34:32.680+0200 [DEBUG] provider: using plugin: version=5
+2022-09-27T14:34:32.680+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: plugin address: network=unix address=/tmp/plugin527073424 timestamp=2022-09-27T14:34:32.680+0200
+2022-09-27T14:34:32.706+0200 [TRACE] BuiltinEvalContext: Initialized "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" provider for provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:32.706+0200 [TRACE] NodeApplyableProvider: configuring provider["registry.terraform.io/citrix/citrixadc"].secondary
+2022-09-27T14:34:32.706+0200 [TRACE] buildProviderConfig for provider["registry.terraform.io/citrix/citrixadc"].secondary: using explicit config only
+2022-09-27T14:34:32.706+0200 [TRACE] provider.stdio: waiting for stdio data
+2022-09-27T14:34:32.706+0200 [TRACE] GRPCProvider: GetProviderSchema
+2022-09-27T14:34:32.707+0200 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unimplemented desc = unknown service plugin.GRPCStdio"
+2022-09-27T14:34:32.729+0200 [DEBUG] No provider meta schema returned
+2022-09-27T14:34:32.744+0200 [TRACE] GRPCProvider: ValidateProviderConfig
+2022-09-27T14:34:32.767+0200 [WARN]  ValidateProviderConfig from "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary" changed the config value, but that value is unused
+2022-09-27T14:34:32.767+0200 [TRACE] GRPCProvider: ConfigureProvider
+2022-09-27T14:34:32.768+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: 2022/09/27 14:34:32 [DEBUG] citrixadc-provider: Terraform version imported: 0.12.20
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary": visit complete
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": starting visit (*terraform.nodeExpandApplyableResource)
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": expanding dynamic subgraph
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": entering dynamic subgraph
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": starting visit (*terraform.NodeApplyableResource)
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": visit complete
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": dynamic subgraph completed successfully
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd (expand)": visit complete
+2022-09-27T14:34:32.768+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": starting visit (*terraform.NodeApplyableResourceInstance)
+2022-09-27T14:34:32.769+0200 [TRACE] readDiff: Read Create change from plan for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.769+0200 [TRACE] readResourceInstanceState: reading state for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.769+0200 [TRACE] readResourceInstanceState: no state present for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.769+0200 [TRACE] readDiff: Read Create change from plan for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.769+0200 [TRACE] Re-validating config for "citrixadc_password_resetter.secondary_resetpwd"
+2022-09-27T14:34:32.769+0200 [TRACE] GRPCProvider: ValidateResourceConfig
+2022-09-27T14:34:32.769+0200 [TRACE] GRPCProvider: PlanResourceChange
+2022-09-27T14:34:32.770+0200 [TRACE] checkPlannedChange: Verifying that actual change (action Create) matches planned change (action Create)
+2022-09-27T14:34:32.770+0200 [INFO]  Starting apply for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.770+0200 [DEBUG] citrixadc_password_resetter.secondary_resetpwd: applying the planned Create change
+2022-09-27T14:34:32.770+0200 [TRACE] GRPCProvider: ApplyResourceChange
+2022-09-27T14:34:32.771+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: 2022/09/27 14:34:32 [DEBUG]  citrixadc-provider: In createPasswordResetter
+2022-09-27T14:34:32.771+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: 2022-09-27T14:34:32.771+0200 [TRACE] service/netscaler_resource.go:230: nitro-go: Creating : resourceType=login
+2022-09-27T14:34:32.771+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: 2022-09-27T14:34:32.771+0200 [TRACE] service/netscaler_resource.go:237: nitro-go: createResource: url=https://34.90.64.16/nitro/v1/config/login
+2022-09-27T14:34:32.771+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: 2022-09-27T14:34:32.771+0200 [TRACE] service/netscaler_resource.go:201: nitro-go: doHTTPRequest HTTP method: method=POST url=https://34.90.64.16/nitro/v1/config/login headers="map[Accept:[application/json] Content-Type:[application/json] User-Agent:[terraform-ctxadc]]"
+2022-09-27T14:34:32.932+0200 [DEBUG] provider.terraform-provider-citrixadc_v1.23.1: 2022-09-27T14:34:32.932+0200 [TRACE] service/netscaler_resource.go:210: nitro-go: response Status:: status="201 Created"
+2022-09-27T14:34:32.933+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState to workingState for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.933+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState: writing state object for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.933+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState to workingState for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.933+0200 [TRACE] NodeAbstractResouceInstance.writeResourceInstanceState: writing state object for citrixadc_password_resetter.secondary_resetpwd
+2022-09-27T14:34:32.933+0200 [TRACE] statemgr.Filesystem: reading latest snapshot from terraform.tfstate
+2022-09-27T14:34:32.933+0200 [TRACE] statemgr.Filesystem: snapshot file has nil snapshot, but that's okay
+2022-09-27T14:34:32.933+0200 [TRACE] statemgr.Filesystem: read nil snapshot
+2022-09-27T14:34:32.933+0200 [TRACE] statemgr.Filesystem: no original state snapshot to back up
+2022-09-27T14:34:32.933+0200 [TRACE] statemgr.Filesystem: state has changed since last snapshot, so incrementing serial to 1
+2022-09-27T14:34:32.933+0200 [TRACE] statemgr.Filesystem: writing snapshot at terraform.tfstate
+2022-09-27T14:34:32.939+0200 [TRACE] vertex "citrixadc_password_resetter.secondary_resetpwd": visit complete
+2022-09-27T14:34:32.939+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary (close)": starting visit (*terraform.graphNodeCloseProvider)
+2022-09-27T14:34:32.939+0200 [TRACE] GRPCProvider: Close
+2022-09-27T14:34:32.941+0200 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/citrix/citrixadc/1.23.1/linux_amd64/terraform-provider-citrixadc_v1.23.1 pid=10540
+2022-09-27T14:34:32.941+0200 [DEBUG] provider: plugin exited
+2022-09-27T14:34:32.941+0200 [TRACE] vertex "provider[\"registry.terraform.io/citrix/citrixadc\"].secondary (close)": visit complete
+2022-09-27T14:34:32.941+0200 [TRACE] vertex "root": starting visit (*terraform.nodeCloseModule)
+2022-09-27T14:34:32.941+0200 [TRACE] vertex "root": visit complete
+2022-09-27T14:34:32.941+0200 [TRACE] statemgr.Filesystem: reading latest snapshot from terraform.tfstate
+2022-09-27T14:34:32.942+0200 [TRACE] statemgr.Filesystem: read snapshot with lineage "764f34c1-6da7-e7b8-caca-2c223c3fbbe8" serial 1
+2022-09-27T14:34:32.942+0200 [TRACE] statemgr.Filesystem: no original state snapshot to back up
+2022-09-27T14:34:32.942+0200 [TRACE] statemgr.Filesystem: no state changes since last snapshot
+2022-09-27T14:34:32.942+0200 [TRACE] statemgr.Filesystem: writing snapshot at terraform.tfstate
+2022-09-27T14:34:32.946+0200 [TRACE] statemgr.Filesystem: removing lock metadata file .terraform.tfstate.lock.info
+2022-09-27T14:34:32.946+0200 [TRACE] statemgr.Filesystem: unlocking terraform.tfstate using fcntl flock

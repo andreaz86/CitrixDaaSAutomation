@@ -1,0 +1,91 @@
+[all:vars]
+citrix_tenant = ${citrix_tenant}
+resource_location_name = ${resource_location_name}
+hosting_connection_name = ${hosting_connection_name}
+hosting_connection_resoucepool_name = ${hosting_connection_resoucepool_name}
+gcp_project_name = ${gcp_project_name}
+gcp_region = ${gcp_region}
+gcp_zone = ${gcp_zone}
+subnetname = ${subnetname}
+vpcname = ${vpcname}
+gcp_sa_privatekey = "${gcp_sa_privatekey}"
+gcp_sa_name = "${gcp_sa_name}"
+administrator_password=${admin_password}
+domain_name = ${domain_fqdn}
+machinecatalog_name = ${machinecatalog_name}
+deliverygroup_name = ${deliverygroup_name}
+citrix_client_id = ${citrix_client_id}
+citrix_client_secret = ${citrix_client_secret}
+vm2deply = ${vm2deply}
+workspaceurl = ${workspaceurl}
+adcgwurl = ${adcgwurl}
+gcp_project_id = "${gcp_project_id}"
+
+
+[adc]
+%{ for name, instance_id in adc_id ~}
+ansible_host=${name} instance_id=${instance_id} ansible_connection=local
+%{ endfor ~}
+
+[adm]
+%{ for name, instance_id in adm_id ~}
+ansible_host=${name} instance_id=${instance_id} ansible_connection=local
+%{ endfor ~}
+
+[domaincontroller]
+%{ for ip in domaincontroller ~}
+${ip}
+%{ endfor ~}
+
+[cloudconnector]
+%{ for ip in cloudconnector ~}
+${ip}
+%{ endfor ~}
+
+[cloudconnector:vars]
+
+
+
+[monitoring]
+%{ for ip in monitoring ~}
+${ip}
+%{ endfor ~}
+
+[windowsvda]
+%{ for ip in windowsvda ~}
+${ip}
+%{ endfor ~}
+
+[windowsvda:vars]
+vda_server_url = ${vda_server_url}
+optimizer_url = ${optimizer_url}
+cc_names = "${cc_names}"
+cc_names_wem = "${cc_names_wem}"
+
+[windows:vars]
+terraform_user = ${terraform_user}
+terraform_pwd = ${terraform_pwd}
+ansible_user = {{ terraform_user }}
+ansible_password = {{ terraform_pwd }}
+ansible_ssh_common_args= '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+ansible_port = 22
+ansible_ssh_retries = 3
+ansible_shell_type = powershell
+ansible_become_method = runas
+ansible_become_user  = "administrator@{{domain_name}}"
+ansible_become_password= "{{ administrator_password }}"
+
+[windows:children]
+cloudconnector
+domaincontroller
+windowsvda
+
+[linux:children]
+monitoring
+
+[linux:vars]
+ssh_username = ${ssh_username}
+ansible_user = {{ ssh_username }}
+ansible_ssh_private_key_file = ../.ssh/google_compute_engine
+ansible_become_method = sudo
+ansible_ssh_common_args = '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'

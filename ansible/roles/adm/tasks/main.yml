@@ -1,0 +1,28 @@
+- name: Create Bearer token
+  ansible.builtin.uri:
+    url: https://api-eu.cloud.com/cctrustoauth2/root/tokens/clients
+    method: POST
+    body_format: form-urlencoded
+    body:
+      grant_type: "client_credentials"
+      client_id: "{{ citrix_id }}"
+      client_secret: "{{ citrix_secret }}"
+  register: token
+
+- name: Create Preauth token
+  ansible.builtin.uri:
+    url: "https://calvi.adm.cloud.com/nitro/v1/config/trust_preauthtoken/{{ citrix_tenant }}"
+    method: GET
+    headers:
+      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+      isCloud: "true"
+  register: adm_preauth
+  delegate_to: localhost
+
+- name: Show workspaceurl_change
+  ansible.builtin.debug:
+    var: adm_preauth
+
+# - name: Join the ADM service
+#   ansible.builtin.shell: python3 /MPS/deployment_type.py http://localhost:4444/wd/hub https://{{ current_host  }} {{ instance_id }} {{ administrator_password }}
+

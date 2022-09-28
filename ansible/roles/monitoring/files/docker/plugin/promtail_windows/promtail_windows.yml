@@ -1,0 +1,34 @@
+# promtail-windows-amd64.exe --config.file=./docker-config.yml
+
+server:
+  disable: true
+clients:
+ - url: http://172.30.200.31:3100/loki/api/v1/push
+
+positions:
+ filename: ./positions.yaml
+
+scrape_configs:
+- job_name: windows_system
+  windows_events:
+    use_incoming_timestamp: false
+    bookmark_path: "./bookmark_sys.xml"
+    eventlog_name: "System"
+    xpath_query: '*'
+    labels:
+      job: windows_system
+  relabel_configs:
+    - source_labels: ['computer']
+      target_label: 'host'
+      
+- job_name: windows_application
+  windows_events:
+    use_incoming_timestamp: false
+    bookmark_path: "./bookmark_app.xml"
+    eventlog_name: "Application"
+    xpath_query: '*'
+    labels:
+      job: windows_application
+  relabel_configs:
+    - source_labels: ['computer']
+      target_label: 'host'

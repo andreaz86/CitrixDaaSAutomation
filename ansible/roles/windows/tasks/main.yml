@@ -1,0 +1,129 @@
+- name: Set timezone to 'W. Europe Standard Time'
+  win_timezone:
+    timezone: W. Europe Standard Time
+
+- name: Disable IE ESC for Admins
+  win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}
+    name: IsInstalled
+    data: 0
+    type: dword
+
+- name: Disable IE ESC for Users
+  win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}
+    name: IsInstalled
+    data: 0
+    type: dword
+
+- name: Disable ServerManager for all Users
+  win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\ServerManager
+    name: DoNotOpenServerManagerAtLogon
+    data: 1
+    type: dword
+
+- name: Disable ServerManager for current user
+  win_regedit:
+    path: HKCU:\SOFTWARE\Microsoft\ServerManager
+    name: CheckedUnattendLaunchSetting
+    data: 0
+    type: dword
+
+- name: Disable First run wizard on MS Edge
+  win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Edge
+    name: HideFirstRunExperience
+    data: 1
+    type: dword
+
+- name: Disable Windows firewall
+  community.windows.win_firewall:
+    state: disabled
+  tags: disable_firewall
+
+- name: Install notepadplusplus
+  win_chocolatey:
+    name: notepadplusplus
+    pinned: yes
+    state: latest
+
+- name: Install Sysmon
+  win_chocolatey:
+    name: sysmon
+    ignore_checksums: true
+    state: present
+
+# - name: Fetch Sysmon config
+#   win_get_url:
+#     url: https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml
+#     dest: 'c:\windows\sysmonconfig-export.xml'
+#   register: sysmon_config
+
+# - debug: var=sysmon_config
+
+# - name: Get status of sysmon service
+#   ansible.windows.win_service_info:
+#     name: Sysmon64
+#   register: service_sysmon_info
+
+# - debug: var=service_sysmon_info
+
+# - name: Launch Sysmon Service
+#   win_command: 'c:\ProgramData\chocolatey\bin\Sysmon64.exe -accepteula -i c:\windows\sysmonconfig-export.xml'
+#   when: service_sysmon_info.exists == false
+
+# - name: Restart sysmon on config change
+#   ansible.windows.win_service:
+#     name: Sysmon64
+#     state: restarted
+#   when: sysmon_config.changed == true
+
+- name: Install Windows Exporter
+  win_chocolatey:
+    name: prometheus-windows-exporter.install
+    package_params: "/EnabledCollectors:ad,adfs,adcs,cache,cpu,cpu_info,cs,container,dfsr,dhcp,dns,fsrmquota,iis,logical_disk,logon,memory,msmq,mssql,netframework_clrexceptions,netframework_clrinterop,netframework_clrjit,netframework_clrloading,netframework_clrlocksandthreads,netframework_clrmemory,netframework_clrremoting,netframework_clrsecurity,net,os,process,remote_fx,service,tcp,time,terminal_services"
+    ignore_checksums: true
+    state: present
+
+- name: Install Winlogbeat
+  win_chocolatey:
+    name: winlogbeat-oss
+    ignore_checksums: true
+    state: present
+
+- name: Install powershell core
+  win_chocolatey:
+    name: powershell-core
+    ignore_checksums: true
+    state: present
+
+- name: Install FileBeat
+  win_chocolatey:
+    name: filebeat-oss
+    ignore_checksums: true
+    state: present
+
+- name: Copy a winlogbeat config
+  win_copy:
+    src: ../files/winlogbeat.yml
+    dest: C:\ProgramData\Elastic\Beats\winlogbeat\winlogbeat.yml
+  register: winlogbeat_config
+
+- name: Copy a filebeat config
+  win_copy:
+    src: ../files/filebeat.yml
+    dest: C:\ProgramData\Elastic\Beats\filebeat\filebeat.yml
+  register: filebeat_config
+
+- name: Re-Start winlogbeat service
+  win_service:
+    name: "winlogbeat"
+    state: restarted
+  when: winlogbeat_config.changed == true
+
+- name: Re-Start filebeat service
+  win_service:
+    name: "filebeat"
+    state: restarted
+  when: filebeat_config.changed == true

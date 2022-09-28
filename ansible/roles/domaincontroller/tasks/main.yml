@@ -1,0 +1,58 @@
+- name: Install AD Features
+  win_feature:
+    name: AD-Domain-Services
+    include_management_tools: true
+    include_sub_features: true
+    state: present
+  register: ad_features
+
+- name: Reboot Server
+  win_reboot:
+    msg: "Installing AD. Rebooting..."
+    pre_reboot_delay: 15
+  when: ad_features.reboot_required
+
+- name: Set Administrator User
+  win_user:
+    name: Administrator
+    password: "{{ administrator_password }}"
+    state: present
+    account_disabled: false
+
+- name: Install Domain
+  win_domain:
+    dns_domain_name: "{{domain_name}}"
+    safe_mode_password: "{{ administrator_password }}"
+  register: ad
+
+- name: Reboot Server
+  win_reboot:
+    msg: "Installing AD. Rebooting..."
+    pre_reboot_delay: 15
+  when: ad.reboot_required
+
+- name: Waiting for Active Directory Web Services...
+  win_wait_for:
+    port: 9389
+
+- name: Install ADCS Features
+  win_feature:
+    name: AD-Certificate
+    include_management_tools: true
+    include_sub_features: true
+    state: present
+  register: adcs_features
+
+- name: Install CA
+  ansible.windows.win_powershell:
+    script: |
+      Install-AdcsCertificationAuthority -force
+
+- name: Create dns records for monitoring vm
+  win_dns_record:
+    name: "monitoring"
+    type: "A"
+    value: "192.168.3.6"
+    zone: "{{ domain_name }}"
+  become: true
+

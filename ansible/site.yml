@@ -1,0 +1,6 @@
+- import_playbook: windows.yml
+- import_playbook: monitoring.yml
+- import_playbook: domaincontroller.yml
+- import_playbook: cloudconnector.yml
+- import_playbook: windowsvda.yml
+- import_playbook: ctx-env.yml
