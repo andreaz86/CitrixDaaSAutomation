@@ -1,9 +1,9 @@
-- name: Create directory requirements
+- name: Create requirements directory
   win_file:
     path: C:\temp\requirements
     state: directory
 
-- name: Copy cloudconnector setup
+- name: Download cloudconnector setup file
   win_get_url:
     url: https://downloads.cloud.com/{{ citrix_tenant }}/connector/cwcconnector.exe
     dest: /temp/requirements/cwcconnector.exe
@@ -26,7 +26,7 @@
   delegate_to: localhost
   when: domain_state.reboot_required
 
-- name: Create Bearer token
+- name: Create Bearer token (delegated to localhost)
   ansible.builtin.uri:
     url: https://api-eu.cloud.com/cctrustoauth2/root/tokens/clients
     method: POST
@@ -38,7 +38,7 @@
   register: token
   delegate_to: localhost
 
-- name: Get current Resource Location
+- name: Get current Resource Location (delegated to localhost)
   ansible.builtin.uri:
     url: "https://registry.citrixworkspacesapi.net/{{ citrix_tenant }}/resourcelocations"
     method: GET
@@ -47,14 +47,14 @@
   register: current_resloc
   delegate_to: localhost
 
-- name: Search for already existing resource location with the same name
+- name: Search for already existing resource location with the same name and set resloc_search variable
   set_fact:
     resloc_search: "{{ current_resloc | community.general.json_query(query) | join(', ') }}"
   vars:
     query: "json.items[?name=='{{ resource_location_name }}'].name"
   delegate_to: localhost
 
-- name: Create Resource Location if need
+- name: Create Resource Location if not exists
   ansible.builtin.uri:
     url: "https://registry.citrixworkspacesapi.net/{{ citrix_tenant }}/resourcelocations"
     method: POST
@@ -69,7 +69,7 @@
   register: resource_location
   delegate_to: localhost
 
-- name: Get ResLoc ID from creating one
+- name: Get ResLoc ID from new one
   set_fact:
     resloc_id: "{{ resource_location.json.id }}"
   when: resloc_search != resource_location_name
@@ -101,7 +101,7 @@
   ansible.windows.win_reboot:
   when: cc_install.rc == 1603
 
-- name: Remove cc configuration file
+- name: Remove Cloud Connector install parameter file for security
   ansible.windows.win_file:
     path: /temp/requirements/cwcconnector_install_params.json
     state: absent

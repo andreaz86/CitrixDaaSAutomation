@@ -12,7 +12,7 @@
     pre_reboot_delay: 15
   when: ad_features.reboot_required
 
-- name: Set Administrator User
+- name: Set local Administrator password
   win_user:
     name: Administrator
     password: "{{ administrator_password }}"

@@ -1,6 +1,6 @@
 - name: Set timezone to 'W. Europe Standard Time'
   win_timezone:
-    timezone: W. Europe Standard Time
+    timezone: {{ vm_timezone }}
 
 - name: Disable IE ESC for Admins
   win_regedit:
@@ -37,22 +37,38 @@
     data: 1
     type: dword
 
+- name: Install telnet client
+  ansible.windows.win_feature:
+    name: telnet-client
+    state: present
+
 - name: Disable Windows firewall
   community.windows.win_firewall:
     state: disabled
   tags: disable_firewall
 
-- name: Install notepadplusplus
+- name: Install Required Software from chocolatey
   win_chocolatey:
-    name: notepadplusplus
-    pinned: yes
-    state: latest
-
-- name: Install Sysmon
-  win_chocolatey:
-    name: sysmon
-    ignore_checksums: true
+    name: {{ item }}
     state: present
+  loop: 
+    - notepadplusplus
+    - sysmon
+    - powershell-core
+    - winlogbeat-oss
+    - filebeat-oss
+
+
+# - name: Install notepadplusplus
+#   win_chocolatey:
+#     name: notepadplusplus
+#     state: latest
+
+# - name: Install Sysmon
+#   win_chocolatey:
+#     name: sysmon
+#     ignore_checksums: true
+#     state: present
 
 # - name: Fetch Sysmon config
 #   win_get_url:
@@ -79,30 +95,30 @@
 #     state: restarted
 #   when: sysmon_config.changed == true
 
-- name: Install Windows Exporter
+- name: Install Windows Exporter with params
   win_chocolatey:
     name: prometheus-windows-exporter.install
     package_params: "/EnabledCollectors:ad,adfs,adcs,cache,cpu,cpu_info,cs,container,dfsr,dhcp,dns,fsrmquota,iis,logical_disk,logon,memory,msmq,mssql,netframework_clrexceptions,netframework_clrinterop,netframework_clrjit,netframework_clrloading,netframework_clrlocksandthreads,netframework_clrmemory,netframework_clrremoting,netframework_clrsecurity,net,os,process,remote_fx,service,tcp,time,terminal_services"
     ignore_checksums: true
     state: present
 
-- name: Install Winlogbeat
-  win_chocolatey:
-    name: winlogbeat-oss
-    ignore_checksums: true
-    state: present
+# - name: Install Winlogbeat
+#   win_chocolatey:
+#     name: winlogbeat-oss
+#     ignore_checksums: true
+#     state: present
 
-- name: Install powershell core
-  win_chocolatey:
-    name: powershell-core
-    ignore_checksums: true
-    state: present
+# - name: Install powershell core
+#   win_chocolatey:
+#     name: powershell-core
+#     ignore_checksums: true
+#     state: present
 
-- name: Install FileBeat
-  win_chocolatey:
-    name: filebeat-oss
-    ignore_checksums: true
-    state: present
+# - name: Install FileBeat
+#   win_chocolatey:
+#     name: filebeat-oss
+#     ignore_checksums: true
+#     state: present
 
 - name: Copy a winlogbeat config
   win_copy:

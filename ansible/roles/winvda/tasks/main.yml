@@ -1,4 +1,4 @@
-- name: Create directory requirements
+- name: Create requirements directory
   win_file:
     path: C:\temp\requirements
     state: directory
@@ -25,12 +25,12 @@
   ansible.windows.win_reboot:
   when: domain_state.reboot_required
 
-- name: Sleep for 300 seconds and continue with play
+- name: Sleep for 60 seconds after restart
   ansible.builtin.wait_for:
     timeout: 60
   delegate_to: localhost
 
-- name: Install VDA
+- name: Install VDA part 1
   ansible.windows.win_package:
     path: c:\temp\requirements\VDAServerSetup_2206.exe
     product_id: '{7E26A26E-E98B-4297-BEF4-0958A110E547}'
@@ -40,8 +40,6 @@
   register: installvda
   tags: vda
   become: true
-
- # - debug: var=installvda
 
 - name: Reboot server if requred
   ansible.windows.win_reboot:
@@ -60,14 +58,12 @@
   become: true
   when: installvda.rc == 3
 
- # - debug: var=installvda
-
 - name: Check if Optimizer already run
   ansible.windows.win_reg_stat:
     path: HKLM:\SOFTWARE\Citrix\Optimizer\OS Optimizations
   register: optimizer_reg
 
-- name: Decompress Optimizer
+- name: Decompress Optimizer Zip File
   community.windows.win_unzip:
     src: c:\temp\requirements\CitrixOptimizerTool.zip
     dest: c:\temp\requirements\CitrixOptimizerTool

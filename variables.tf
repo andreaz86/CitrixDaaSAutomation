@@ -20,6 +20,9 @@ variable "vmname_prefix" {
   description = "Prefix value to be attached to every VM"
 }
 
+variable "vm_timezone" {
+  description = "Timezone to be used on the VM https://learn.microsoft.com/en-us/previous-versions/windows/embedded/ms912391(v=winembedded.11)"
+}
 # Account Variables
 variable "username" {
   description = "Local user that will be created to windows VM, this will be added to local administrator group (don't use Administrator)"
@@ -138,6 +141,14 @@ variable "cloudconnector_vm" {
       vmimage  = "windows-cloud/windows-2022"
       disktype = "pd-standard"
     }
+    ccc02 = {
+      name     = "ccc02"
+      vmtype   = "n2-standard-2"
+      zone     = "europe-west4-b"
+      ip       = "192.168.3.4"
+      vmimage  = "windows-cloud/windows-2022"
+      disktype = "pd-standard"
+    }
   }
 }
 
@@ -149,7 +160,7 @@ variable "monitoring_vm" {
       name     = "mon01"
       vmtype   = "n2-standard-2"
       zone     = "europe-west4-a"
-      ip       = "192.168.3.6"
+      ip       = "192.168.3.5"
       vmimage  = "ubuntu-os-cloud/ubuntu-2204-lts"
       disktype = "pd-standard"
       disksize = "40"

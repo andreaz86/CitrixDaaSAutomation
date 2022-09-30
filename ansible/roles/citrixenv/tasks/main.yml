@@ -25,18 +25,14 @@
   vars:
     query: "json.items[?name=='{{ resource_location_name }}'].name"
 
-- name: Search for already existing resource location with the same name
+- name: If resource location already exists, taking the ID in resloc_id variable
   set_fact:
     resloc_id: "{{ current_resloc | community.general.json_query(query) | join(', ') }}"
   vars:
     query: "json.items[?name=='{{ resource_location_name }}'].id"
   when: resloc_search
 
-- name: Show facts available on the system
-  ansible.builtin.debug:
-    var: resloc_search
-
-- name: Create Resource Location if need
+- name: Create Resource Location if not exists
   ansible.builtin.uri:
     url: "https://registry.citrixworkspacesapi.net/{{ citrix_tenant }}/resourcelocations"
     method: POST
@@ -50,7 +46,7 @@
   when: resloc_search != resource_location_name
   register: resloc
 
-- name: Search for already existing resource location with the same name
+- name: Set resloc_id variable with resource location id 
   set_fact:
     resloc_id: "{{ resloc.json.id }}"
   when: resloc_search != resource_location_name
@@ -109,10 +105,9 @@
   register: get_cloudcomain_avaiability
   when: domain_search != workspaceurl_full
 
-- name: Show get_current_storefrontconfig Hypervisors
-  ansible.builtin.debug:
-    var: get_cloudcomain_avaiability
-
+# - name: Show get_current_storefrontconfig Hypervisors
+#   ansible.builtin.debug:
+#     var: get_cloudcomain_avaiability
 
 - name: Modify the workspace url
   ansible.builtin.uri:
@@ -134,8 +129,6 @@
   ansible.builtin.debug:
     var: workspaceurl_change
 
-
-
 ## Setting Hosting Connection
 
 - name: Get Existing hosting connections
@@ -148,11 +141,11 @@
       Citrix-InstanceId: "{{ citrix_siteid }}"
   register: get_citrix_hypervisors
 
-- name: Show Citrix Hypervisors
-  ansible.builtin.debug:
-    var: get_citrix_hypervisors
+# - name: Show Citrix Hypervisors
+#   ansible.builtin.debug:
+#     var: get_citrix_hypervisors
 
-- name: Search for already existing hosting connector
+- name: Search for already existing hosting connector with the same name
   set_fact:
     resloc_search: "{{ get_citrix_hypervisors | community.general.json_query(query) | join(', ') }}"
   vars:
@@ -184,7 +177,7 @@
   when: resloc_search != hosting_connection_name
   register: provahosting
 
-- name: Validate Credential
+- name: Validate Credential for join MCS VMs
   ansible.builtin.uri:
     url: "https://{{ citrix_tenant }}.xendesktop.net/citrix/orchestration/api/techpreview/{{ citrix_tenant }}/{{ citrix_siteid }}/Identity/Users/$validate"
     method: POST
@@ -213,9 +206,9 @@
   register: encodedpass
 
 
-- name: Show facts available on the system
-  ansible.builtin.debug:
-    var: encodedpass.stdout
+# - name: Show facts available on the system
+#   ansible.builtin.debug:
+#     var: encodedpass.stdout
 
 - name: Get current Machine Catalogs
   ansible.builtin.uri:
@@ -230,17 +223,17 @@
       X-AdminCredential: "Basic {{ encodedpass.stdout }}"
   register: current_machinecatalogs
 
-- name: Show facts available on the system
-  ansible.builtin.debug:
-    var: current_machinecatalogs
+# - name: Show facts available on the system
+#   ansible.builtin.debug:
+#     var: current_machinecatalogs
 
-- name: Search if Machine Catalog
+- name: Search if Machine Catalog with the same name already exists
   ansible.builtin.set_fact:
     search_machinecatalog: "{{ current_machinecatalogs | community.general.json_query(query) | join(', ') }}"
   vars:
     query: "json.Items[?Name=='{{ machinecatalog_name }}'].Name"
 
-- name: Create Machine Catalog
+- name: Create Machine Catalog if not exists
   ansible.builtin.uri:
     url: "https://api.cloud.com/cvad/manage/MachineCatalogs"
     method: POST
@@ -284,9 +277,9 @@
   register: machinecatalog
   when: search_machinecatalog != machinecatalog_name
 
-- name: Show facts available on the system
-  ansible.builtin.debug:
-    var: machinecatalog
+# - name: Show facts available on the system
+#   ansible.builtin.debug:
+#     var: machinecatalog
 
 - name: Get current Machine Catalogs preparation
   ansible.builtin.uri:

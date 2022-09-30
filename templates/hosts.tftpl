@@ -18,7 +18,6 @@ citrix_client_id = ${citrix_client_id}
 citrix_client_secret = ${citrix_client_secret}
 vm2deply = ${vm2deply}
 workspaceurl = ${workspaceurl}
-adcgwurl = ${adcgwurl}
 gcp_project_id = "${gcp_project_id}"
 
 [domaincontroller]
@@ -32,8 +31,6 @@ ${ip}
 %{ endfor ~}
 
 [cloudconnector:vars]
-
-
 
 [monitoring]
 %{ for ip in monitoring ~}
@@ -63,6 +60,7 @@ ansible_shell_type = powershell
 ansible_become_method = runas
 ansible_become_user  = "administrator@{{domain_name}}"
 ansible_become_password= "{{ administrator_password }}"
+vm_timezone = "${vm_timezone}"
 
 [windows:children]
 cloudconnector

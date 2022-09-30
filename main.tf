@@ -3,10 +3,8 @@ module "vpc" {
   vpc_config          = var.vpc_config
   gcp_region          = var.gcp_region
   cloudconnector_vm   = var.cloudconnector_vm
-  storefront_vm       = var.storefront_vm
   monitoring_vm       = var.monitoring_vm
   domaincontroller_vm = var.domaincontroller_vm
-  adc_vm              = var.adc_vm
 }
 
 module "iam" {
