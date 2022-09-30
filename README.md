@@ -31,5 +31,8 @@ This what on high level will look this project:
 Before to preceed you need:
 1. Generate client id and secret from your Citrix Tenant
 2. Your account on GCP to be owner of the Project you want to use
-3. 
+3. A computer to 
+
+## Assumptions
+Terraform will use public ip from the VM 
 
