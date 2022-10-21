@@ -30,9 +30,11 @@ This what on high level will look this project:
 ## Requirements
 Before to preceed you need:
 1. Generate client id and secret from your Citrix Tenant
-2. Your account on GCP to be owner of the Project you want to use
-3. A computer to 
+2. Your account on GCP to be owner of the Project you want to use (terraform will create a ServiceAccount to be used for Citrix MCS)
+3. A computer running Linux or Mac with Terraform and Ansible installed
+    - If using Windows you can rely on WSL
+4. test
 
 ## Assumptions
-Terraform will use public ip from the VM 
+In this example, Terraform will deploy VM with public IP and use these IP to pass it on Ansible
 

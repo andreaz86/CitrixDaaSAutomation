@@ -17,10 +17,12 @@ variable "gcp_project_name" {
 # VM Variables
 variable "vmname_prefix" {
   description = "Prefix value to be attached to every VM"
+  default = "lab-"
 }
 
 variable "vm_timezone" {
   description = "Timezone to be used on the VM https://learn.microsoft.com/en-us/previous-versions/windows/embedded/ms912391(v=winembedded.11)"
+  default = "W. Europe Standard Time"
 }
 # Account Variables
 variable "username" {
