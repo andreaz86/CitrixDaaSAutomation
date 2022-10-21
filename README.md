@@ -46,9 +46,17 @@ Before to preceed you need:
     - install jmespath from python-pip (pip3 install jmespath)
 
 
-## Generate the infrastracture
+## Terraform
 To start terraforming:
  - git clone this repo
- - 
-- we
+ - rename the terraform.tfvars.example file in terraform.tfvars
+    - change variables accondingly with your environment
+- terraform init
+- terraform plan
+- terraform apply
+
+## Ansible
+After terraform has completed, you can configure the environment usign ansible (wait 2-3 min before to be sure all services has been started):
+- cd to ansible directory
+- ansible-playbook -i ./inventory.ini site.yml
 
