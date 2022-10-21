@@ -44,8 +44,11 @@ Before to preceed you need:
     - Install terraform: https://learn.hashicorp.com/tutorials/terraform/install-cli
     - Install Ansible: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
     - install jmespath from python-pip (pip3 install jmespath)
-4. test
 
-## Assumptions
-In this example, Terraform will deploy VM with public IP and use these IP to pass it on Ansible
+
+## Generate the infrastracture
+To start terraforming:
+ - git clone this repo
+ - 
+- we
 
