@@ -51,14 +51,13 @@ To start terraforming:
  - git clone this repo
  - rename the terraform.tfvars.example file in terraform.tfvars
     - change variables accondingly with your environment
-- ```sh
+- 
+```sh
 terraform init
 terraform plan
 terraform apply
 ```
-- terraform init
-- terraform plan
-- terraform apply
+
 
 ## Ansible
 After terraform has completed, you can configure the environment usign ansible (wait 2-3 min before to be sure all services has been started):
