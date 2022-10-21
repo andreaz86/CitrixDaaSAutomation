@@ -53,28 +53,6 @@ resource "google_compute_firewall" "allow-80-from-vda" {
   target_tags   = ["cloudconnector"]
 }
 
-resource "google_compute_firewall" "allow-grafana-server" {
-  name    = "allow-server-grafana"
-  network = google_compute_network.vpc_server.self_link
-  allow {
-    protocol = "tcp"
-    ports    = ["3000"]
-  }
-  source_ranges = ["${chomp(data.http.myip.response_body)}/32"]
-  target_tags   = ["monitoring"]
-}
-
-resource "google_compute_firewall" "allow-graylog-server" {
-  name    = "allow-server-graylog"
-  network = google_compute_network.vpc_server.self_link
-  allow {
-    protocol = "tcp"
-    ports    = ["9000"]
-  }
-  source_ranges = ["${chomp(data.http.myip.response_body)}/32"]
-  target_tags   = ["monitoring"]
-}
-
 
 resource "google_compute_firewall" "allow-server-fromvda" {
   name    = "allow-server-from-vda"
@@ -85,28 +63,6 @@ resource "google_compute_firewall" "allow-server-fromvda" {
   source_ranges = [var.vpc_config.vda.subnet_cidr]
 }
 
-
-resource "google_compute_firewall" "allow-4444-monitoring" {
-  name    = "allow-4444-monitoring"
-  network = google_compute_network.vpc_server.self_link
-  allow {
-    protocol = "tcp"
-    ports    = ["4444"]
-  }
-  source_ranges = ["${chomp(data.http.myip.response_body)}/32"]
-  target_tags   = ["monitoring"]
-}
-
-resource "google_compute_firewall" "allow-7900-monitoring" {
-  name    = "allow-7900-monitoring"
-  network = google_compute_network.vpc_server.self_link
-  allow {
-    protocol = "tcp"
-    ports    = ["7900"]
-  }
-  source_ranges = ["${chomp(data.http.myip.response_body)}/32"]
-  target_tags   = ["monitoring"]
-}
 
 resource "google_compute_firewall" "allow-iap-tcp-server" {
   name    = "allow-iap-tcp-server"

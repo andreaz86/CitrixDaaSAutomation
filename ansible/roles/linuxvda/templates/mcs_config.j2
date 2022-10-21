@@ -1,0 +1,102 @@
+#!/bin/bash
+
+###############################################################################
+#
+# Citrix Virtual Apps & Desktops For Linux Script: Machine Creation Service
+# Copyright (c) Citrix Systems, Inc. All Rights Reserved.
+#
+# This is the configuration file for mcs scripts.
+
+
+
+#########################Template machine check################################
+# If unspecified, the value is N by default, meaning that mcs configuration templates will overwrite configuration items
+# If you choose Y, MCS created VMs will use the existing configuration files(/etc/krb5.conf, /etc/samba/smb.conf, /etc/sssd/sssd.conf) of the current VDA
+Use_AD_Configuration_Files_Of_Current_VDA=Y
+
+#########################DNS Configuration#####################################
+# Provide DNS information
+# You can provide 4 DNS servers at most.
+# Leave empty if you do not have 4 servers. You may also leave all of them empty
+# and configure dns manually.
+# Format:
+# dns1="xx.xx.xx.xx"
+# dns2="xx.xx.xx.xx"
+# dns3=
+# dns4=
+dns1={{ dc_internal_ip }}
+dns2=
+dns3=
+dns4=
+
+#########################NTP Configuration#####################################
+# Provide NTP server information.
+# If not set here, the default value will be the address of domain controller.
+# Format:
+# NTP_SERVER="xx.xx.xx.xx"
+NTP_SERVER={{ dc_internal_ip }}
+
+#########################WORKGROUP Configuration###############################
+# Provide Workgroup information.
+# Usually workgroup is the same with domain name and you do not need to configure it here.
+# If that is not the case, please config it according to the correct format:
+# WORKGROUP="workgroup_name"
+WORKGROUP=
+
+#########################Domain Join Configuration#############################
+# Provide Domain Join method.
+# Winbind: support RHEL7/CentOS7, RHEL8/CentOS8, SUSE12, SUSE15, Ubuntu18.04, Ubuntu20.04, Ubuntu22.04
+# SSSD: support RHEL7/CentOS7, Ubuntu18.04, Ubuntu20.04, Ubuntu20.04, SUSE12, SUSE15
+# Centrify: support RHEL7/CentOS7
+# PBIS: support RHEL7/CentOS7, RHEL8/CentOS8, SUSE12, SUSE15, Ubuntu18.04, Ubuntu20.04, Ubuntu20.04, Debian 10
+# AD_INTEGRATION="winbind" or AD_INTEGRATION="sssd" or AD_INTEGRATION="centrify" or AD_INTEGRATION="pbis"
+AD_INTEGRATION="winbind"
+
+#########################Centrify download path Configuration#############################
+# When choose Centrify as AD_INTEGRATION, provide Centrify download path with related distribution if Centrify is not installed.
+# To find out the correct download url for your os, you may go here:
+# https://www.centrify.com/express/linux/download-files/#accordion-download-express-02
+CENTRIFY_DOWNLOAD_PATH=
+
+
+#########################Centrify Samba download path Configuration#############################
+# When choose Centrify as AD_INTEGRATION, provide Centrify Samba download path with related distribution if Centrify is not installed.
+# CENTRIFY_SAMBA_DOWNLOAD_PATH="https://downloads.centrify.com/products/adbindproxy/2020/centrify-adbindproxy-5.7.0-rhel5-x86_64.tgz"
+CENTRIFY_SAMBA_DOWNLOAD_PATH=
+
+
+#########################PBIS download path Configuration#############################
+# When choose PBIS as AD_INTEGRATION, provide PBIS download path if PBIS is not installed.
+# PBIS: support RHEL7/CentOS7, RHEL8/CentOS8, SUSE15, Ubuntu18+
+# RHEL7 and SUSE12: "https://github.com/BeyondTrust/pbis-open/releases/download/8.8.0/pbis-open-8.8.0.506.linux.x86_64.rpm.sh"
+# RHEL8: "https://github.com/BeyondTrust/pbis-open/releases/download/9.1.0/pbis-open-9.1.0.551.linux.x86_64.rpm.sh"
+# Ubuntu: "https://github.com/BeyondTrust/pbis-open/releases/download/8.8.0/pbis-open-8.8.0.506.linux.x86_64.deb.sh"
+# SUSE15: "https://github.com/BeyondTrust/pbis-open/releases/download/9.1.0/pbis-open-9.1.0.551.linux.x86_64.rpm.sh"
+# PBIS_DOWNLOAD_PATH="https://github.com/BeyondTrust/pbis-open/releases/download/8.8.0/pbis-open-8.8.0.506.linux.x86_64.rpm.sh"
+PBIS_DOWNLOAD_PATH=
+
+
+#########################Machine Password Automate Update############################
+# Machine password will expire after 30 days(default), so we have a mechanism to update
+# this password regularly.
+# You can set this value to enabled to enable this feature.
+UPDATE_MACHINE_PW="disabled"
+
+#########################Linux VDA Configuration###############################
+# Provide Linux VDA configuration information.
+# Please refer to Linux VDA Documentation for these settings.
+DOTNET_RUNTIME_PATH=/usr/bin
+DESKTOP_ENVIRONMENT=gnome
+SUPPORT_DDC_AS_CNAME=N
+VDA_PORT=80
+REGISTER_SERVICE=Y
+ADD_FIREWALL_RULES=Y
+HDX_3D_PRO=N
+VDI_MODE=N
+SITE_NAME='<none>'
+LDAP_LIST='<none>'
+SEARCH_BASE='<none>'
+FAS_LIST='<none>'
+START_SERVICE=Y
+TELEMETRY_SOCKET_PORT=7503
+TELEMETRY_PORT=7502

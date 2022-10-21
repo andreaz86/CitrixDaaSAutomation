@@ -11,9 +11,8 @@ variable "gcp_zone" {
 variable "gcp_project_name" {
   description = "GCP Project Name"
 }
-variable "gcp_service_account" {
-  description = "GCP Service Account that will be created, used to create hosting connection in Citrix DaaS"
-}
+
+
 
 # VM Variables
 variable "vmname_prefix" {
@@ -37,6 +36,17 @@ variable "admin_password" {
 # Domain Variables
 variable "domain_fqdn" {
   description = "Domain FQDN that will be created"
+}
+
+variable "users2create" {
+  description = "number of users to create in AD (user1, user2 etc etc)"
+  default     = 5
+}
+
+variable "adgroup2create" {
+  description = "name of the AD group to be created used for delivery group publication, users of users2create will be added here"
+  default     = "Lab Users Group"
+
 }
 
 # Citrix Cloud Variables
@@ -66,6 +76,7 @@ variable "machinecatalog_name" {
 }
 variable "vm2deply" {
   description = "Number of the VM that will be created from MCS"
+  default = 1
 }
 variable "workspaceurl" {
   description = "Citrix Cloud URL to be used"
@@ -78,6 +89,9 @@ variable "vda_server_url" {
 }
 variable "optimizer_url" {
   description = "URL used to download the Citrix Optimizer Tool"
+}
+variable "linuxvda_url" {
+  description = "URL used to download Linux VDA"
 }
 
 
@@ -124,7 +138,7 @@ variable "domaincontroller_vm" {
       zone     = "europe-west4-a"
       ip       = "192.168.3.2"
       vmimage  = "windows-cloud/windows-2022"
-      disktype = "pd-balanced"
+      disktype = "pd-standard"
     }
   }
 }
@@ -135,49 +149,38 @@ variable "cloudconnector_vm" {
   default = {
     ccc01 = {
       name     = "ccc01"
-      vmtype   = "n2-standard-2"
+      vmtype   = "e2-medium"
       zone     = "europe-west4-a"
       ip       = "192.168.3.3"
       vmimage  = "windows-cloud/windows-2022"
       disktype = "pd-standard"
     }
-    ccc02 = {
-      name     = "ccc02"
-      vmtype   = "n2-standard-2"
-      zone     = "europe-west4-b"
-      ip       = "192.168.3.4"
-      vmimage  = "windows-cloud/windows-2022"
-      disktype = "pd-standard"
-    }
   }
 }
-
-variable "monitoring_vm" {
-  description = "Monitoring VM config"
-  type        = map(any)
-  default = {
-    mon01 = {
-      name     = "mon01"
-      vmtype   = "n2-standard-2"
-      zone     = "europe-west4-a"
-      ip       = "192.168.3.5"
-      vmimage  = "ubuntu-os-cloud/ubuntu-2204-lts"
-      disktype = "pd-standard"
-      disksize = "40"
-    }
-  }
-}
-
 
 variable "winvda_vm" {
   description = "Windows VDA VM config"
   default = {
     winvda01 = {
       name     = "winvda01"
-      vmtype   = "n2-standard-2"
+      vmtype   = "e2-medium"
       zone     = "europe-west4-a"
       vmimage  = "windows-cloud/windows-2022"
       disktype = "pd-standard"
+    }
+  }
+}
+
+variable "linvda_vm" {
+  description = "Linux VDA VM config"
+  default = {
+    linvda01 = {
+      name     = "linvda01"
+      vmtype   = "n2-standard-2"
+      zone     = "europe-west4-a"
+      vmimage  = "ubuntu-os-cloud/ubuntu-2204-lts"
+      disktype = "pd-balanced"
+      disksize = "40"
     }
   }
 }

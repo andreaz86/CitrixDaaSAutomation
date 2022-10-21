@@ -1,0 +1,214 @@
+- name: Install required system packages
+  ansible.builtin.apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+      - gnupg2
+      - dotnet-runtime-6.0
+      - snapd
+      - sshpass
+    update_cache: true
+  become: true
+
+- name: Create requirements directory
+  ansible.builtin.file:
+    path: /var/requirements
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Add terraform gpg
+  ansible.builtin.get_url:
+    url: "https://apt.releases.hashicorp.com/gpg"
+    dest: /etc/apt/trusted.gpg.d/terraform.asc
+  become: true
+
+- name: Add terraform repo
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/terraform.asc] https://apt.releases.hashicorp.com {{ ansible_distribution_release | lower }} main
+  become: true
+
+
+# Download Requirements
+
+- name: Download Burp
+  ansible.builtin.get_url:
+    url: "https://portswigger-cdn.net/burp/releases/download?product=community&version=2022.8.5&type=Linux"
+    dest: /var/requirements/burp.sh
+    mode: '0750'
+  become: true
+  register: burp_download
+
+- name: Download VSCode
+  ansible.builtin.get_url:
+    url: "https://az764295.vo.msecnd.net/stable/64bbfbf67ada9953918d72e1df2f4d8e537d340e/code_1.72.0-1664926972_amd64.deb"
+    dest: /var/requirements/vscode.deb
+  become: true
+  register: vscode_download
+
+- name: Download MSEdge
+  ansible.builtin.get_url:
+    url: "https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_106.0.1370.37-1_amd64.deb"
+    dest: /var/requirements/msedge.deb
+  become: true
+  register: msedge_download
+
+- name: Download VDA
+  ansible.builtin.get_url:
+    url: "{{ linuxvda_url }}"
+    dest: /var/requirements/VDA.deb
+  register: vda_download
+  become: true
+
+# Install software requirements
+- name: Install postman
+  community.general.snap:
+    name:
+      - postman
+  become: true
+
+- name: Install VSCode
+  ansible.builtin.apt:
+    deb: "{{ vscode_download.dest }}"
+  become: true
+
+- name: Install MSEdge
+  ansible.builtin.apt:
+    deb: "{{ msedge_download.dest }}"
+  become: true
+
+- name: Install VDA
+  ansible.builtin.apt:
+    deb: "{{ vda_download.dest }}"
+  become: true
+
+- name: Install Burp
+  ansible.builtin.shell: "{{ burp_download.dest }} -q"
+  args:
+    chdir: /var/requirements
+    executable: /bin/bash
+  become: true
+  register: install_burp
+  
+- name: Install ansible from pip
+  ansible.builtin.pip:
+    name: ansible
+  become: true
+
+- name: Install jmespath from pip
+  ansible.builtin.pip:
+    name: jmespath
+  become: true
+
+
+- name: Install terraform
+  ansible.builtin.apt:
+    pkg:
+      - terraform
+    update_cache: true
+  become: true
+
+- name: Define NetBios domain name
+  ansible.windows.win_powershell:
+    script: |
+      $netbios_ad=Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
+      $netbios_ad.DomainName
+  register: pws_output
+  delegate_to: "{{ item }}"
+  loop: "{{ groups['domaincontroller'] }}"
+
+- name: Set netbios_name variable
+  ansible.builtin.set_fact:  
+    netbios_name: "{{ pws_output.results[0].output[0] }}"
+
+- name: Copy apparmor config
+  ansible.builtin.template:
+    src: '{{ role_path }}/templates/app_armor.j2'
+    dest: "/etc/apparmor.d/tunables/home.d/ubuntu"
+    mode: 0711
+  become: true
+  register: apparmor_config_file
+
+- name: Copy template file for ctxinstall
+  ansible.builtin.template:
+    src: '{{ role_path }}/templates/ctxinstall.j2'
+    dest: "/opt/Citrix/VDA/ctxinstall.sh"
+    mode: 0755
+  become: true
+  register: ctxinstall_config_file
+
+- name: Copy template file for mcs
+  ansible.builtin.template:
+    src: '{{ role_path }}/templates/mcs_config.j2'
+    dest: "/etc/xdl/mcs/mcs.conf"
+    mode: 0755
+  become: true
+  register: mcs_config_file
+
+- name: Check if MCS already run
+  stat:
+    path: /etc/mcs_ok
+  register: check_mcs
+
+- name: Check if MCS already run
+  stat:
+    path: /etc/vda_ok
+  register: check_vda
+
+- name: debugf
+  ansible.builtin.debug:
+    var: check_mcs
+
+
+- name: Configure VDA
+  ansible.builtin.shell: /opt/Citrix/VDA/ctxinstall.sh
+  args:
+    chdir: /opt/Citrix/VDA
+    executable: /bin/bash
+  become: true
+  when: not check_vda.stat.exists
+  register: vda_configure
+
+- name: Touch /etc/vda_ok
+  ansible.builtin.file:
+    path: /etc/vda_ok
+    state: touch
+  become: true
+  when: not check_vda.stat.exists
+
+- name: Configure MCS
+  ansible.builtin.shell: /opt/Citrix/VDA/sbin/deploymcs.sh
+  args:
+    executable: /bin/bash
+  become: true
+  when: not check_mcs.stat.exists
+  register: mcs_configure
+
+- name: Touch /etc/mcs_ok
+  ansible.builtin.file:
+    path: /etc/mcs_ok
+    state: touch
+  become: true
+  when: not check_mcs.stat.exists
+
+- name: Delete VDA configuration file
+  ansible.builtin.file:
+    path: /opt/Citrix/VDA/ctxinstall.sh
+    state: absent
+  become: true
+  
+- name: Update all packages
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+  become: true
+
+- name: Shutdown
+  community.general.shutdown:
+  become: true
+

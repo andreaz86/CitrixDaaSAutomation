@@ -18,6 +18,19 @@
       Authorization: "CwsAuth bearer={{ token.json.access_token }}"
   register: current_resloc
 
+- name: Define NetBios domain name
+  ansible.windows.win_powershell:
+    script: |
+      $netbios_ad=Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
+      $netbios_ad.DomainName
+  register: pws_output
+  delegate_to: "{{ item }}"
+  loop: "{{ groups['domaincontroller'] }}"
+
+- name: Set netbios_name variable
+  ansible.builtin.set_fact:  
+    netbios_name: "{{ pws_output.results[0].output[0] }}"
+
 # Iterate current_resloc variable searching for resource_location_name
 - name: Search for already existing resource location with the same name
   set_fact:
@@ -109,25 +122,25 @@
 #   ansible.builtin.debug:
 #     var: get_cloudcomain_avaiability
 
-- name: Modify the workspace url
-  ansible.builtin.uri:
-    url: "https://storefrontconfiguration.citrixworkspacesapi.net/{{ citrix_tenant }}/storeconfigs/{{ store_id }}"
-    method: PUT
-    body_format: json
-    status_code: [200, 201]
-    headers:
-      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-      Citrix-CustomerId: "{{ citrix_tenant }}"
-      Citrix-InstanceId: "{{ citrix_siteid }}"
-    body:
-      storeFrontDomains: ["{{ workspaceurl }}.cloud.com"]
-      workSpaceUrlEnabled: true
-  register: workspaceurl_change
-  when: get_cloudcomain_avaiability.json == false
+# - name: Modify the workspace url
+#   ansible.builtin.uri:
+#     url: "https://storefrontconfiguration.citrixworkspacesapi.net/{{ citrix_tenant }}/storeconfigs/{{ store_id }}"
+#     method: PUT
+#     body_format: json
+#     status_code: [200, 201]
+#     headers:
+#       Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+#       Citrix-CustomerId: "{{ citrix_tenant }}"
+#       Citrix-InstanceId: "{{ citrix_siteid }}"
+#     body:
+#       storeFrontDomains: ["{{ workspaceurl }}.cloud.com"]
+#       workSpaceUrlEnabled: true
+#   register: workspaceurl_change
+#   when: get_cloudcomain_avaiability.json == false
 
-- name: Show workspaceurl_change
-  ansible.builtin.debug:
-    var: workspaceurl_change
+# - name: Show workspaceurl_change
+#   ansible.builtin.debug:
+#     var: workspaceurl_change
 
 ## Setting Hosting Connection
 
@@ -151,6 +164,12 @@
   vars:
     query: "json.Items[?Name=='{{ hosting_connection_name }}'].Name"
 
+- name: Sleep for 120 to be sure all services are running
+  ansible.builtin.wait_for:
+    timeout: 10
+  delegate_to: localhost
+
+
 - name: Create Hosting Connection
   ansible.builtin.uri:
     url: "https://api.cloud.com/cvad/manage/hypervisors"
@@ -171,9 +190,9 @@
       PoolDetails:
         ConnectionType: "GoogleCloudPlatform"
         Name: "{{ hosting_connection_resoucepool_name }}"
-        Region: "XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ region }}.region"
-        VirtualPrivateCloud: "XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ region }}.region\\{{ vpcname }}.virtualprivatecloud"
-        Networks: ["XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ region }}.region\\{{ vpcname }}.virtualprivatecloud\\{{ subnetname }}.network"]
+        Region: "XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ gcp_region }}.region"
+        VirtualPrivateCloud: "XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ gcp_region }}.region\\{{ vpcname }}.virtualprivatecloud"
+        Networks: ["XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ gcp_region }}.region\\{{ vpcname }}.virtualprivatecloud\\{{ subnetname }}.network"]
   when: resloc_search != hosting_connection_name
   register: provahosting
 
@@ -233,6 +252,34 @@
   vars:
     query: "json.Items[?Name=='{{ machinecatalog_name }}'].Name"
 
+- name: Use existing ID if machine catalog already exists
+  ansible.builtin.set_fact:
+    search_machinecatalog_id: "{{ current_machinecatalogs | community.general.json_query(query) | join(', ') }}"
+  vars:
+    query: "json.Items[?Name=='{{ machinecatalog_name }}'].Id"
+  when: search_machinecatalog == machinecatalog_name
+
+- name: Show facts available on the system
+  ansible.builtin.debug:
+    var: search_machinecatalog_id
+
+- name: Get current machine catalog
+  ansible.builtin.uri:
+    url: "https://api.cloud.com/cvad/manage/MachineCatalogs/{{ search_machinecatalog_id }}"
+    method: GET
+    body_format: json
+    status_code: [200, 201]
+    headers:
+      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+      Citrix-CustomerId: "{{ citrix_tenant }}"
+      Citrix-InstanceId: "{{ citrix_siteid }}"
+  register: machinecatalog_already_exists
+  when: search_machinecatalog == machinecatalog_name
+
+- name: Show machinecatalog
+  ansible.builtin.debug:
+    var: machinecatalog
+
 - name: Create Machine Catalog if not exists
   ansible.builtin.uri:
     url: "https://api.cloud.com/cvad/manage/MachineCatalogs"
@@ -253,7 +300,7 @@
       SessionSupport: "MultiSession"
       Zone: "{{ resource_location_name }}"
       ProvisioningScheme:
-        MasterImagePath: "XDHyp:\\HostingUnits\\{{ hosting_connection_resoucepool_name }}\\az-winvda01.vm"
+        MasterImagePath: "XDHyp:\\HostingUnits\\{{ hosting_connection_resoucepool_name }}\\{{ masterimagename }}.vm"
         CpuCount: 2
         MemoryMB: 8192
         NumTotalMachines: "{{ vm2deply }}"
@@ -277,9 +324,14 @@
   register: machinecatalog
   when: search_machinecatalog != machinecatalog_name
 
-# - name: Show facts available on the system
-#   ansible.builtin.debug:
-#     var: machinecatalog
+- name: Restore machinecatalog variable 
+  ansible.builtin.set_fact:
+    machinecatalog : "{{ machinecatalog_already_exists }}"
+  when: search_machinecatalog == machinecatalog_name
+
+- name: Show machinecatalog
+  ansible.builtin.debug:
+    var: machinecatalog
 
 - name: Get current Machine Catalogs preparation
   ansible.builtin.uri:
@@ -320,13 +372,13 @@
         "Enabled": "true",
         "IncludedUserFilterEnabled": "false",
         "IncludedUsers":[],
-        "PublishedName":"CVAD_APIs_Physical_DG",
+        "PublishedName":"Ubuntu Lab Desktop",
         "MaxDesktops":1 }
         ]
       MinimumFunctionalLevel: "L7_25"
       RequireUserHomeZone: false
       SimpleAccessPolicy:
-        IncludedUsers: ["azdom\\administrator"]
+        IncludedUsers: ["{{ netbios_name }}\\{{ adgroup2create }}"]
         AllowAnonymous: false
         IncludedUserFilterEnabled: true
       UserManagement: "Studio"

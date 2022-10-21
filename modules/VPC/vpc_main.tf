@@ -49,14 +49,7 @@ resource "google_compute_address" "domaincontroller_internal_ip" {
 }
 
 
-resource "google_compute_address" "monitoring_internal_ip" {
-  for_each = var.monitoring_vm
-  name         = "${each.value.name}-ip"
-  subnetwork   = google_compute_subnetwork.server_subnet.self_link
-  address_type = "INTERNAL"
-  address      = each.value.ip
-  region       = var.gcp_region
-} 
+
 
  ## VPC Peering
 

@@ -188,21 +188,26 @@
     register: delete_machinecatalog
     when: search_machinecatalog
 
-  - name: Get Machine Catalog
-    ansible.builtin.uri:
-      url: "https://api.cloud.com/cvad/manage/MachineCatalogs/{{ search_machinecatalog }}"
-      method: GET
-      body_format: json
-      status_code: [200, 201, 404]
-      headers:
-        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-        Citrix-CustomerId: "{{ citrix_tenant }}"
-        Citrix-InstanceId: "{{ citrix_siteid }}"
-    register: machinecatalog_delete
+  - name: Sleep for 120 to be sure all services are running
+    ansible.builtin.wait_for:
+      timeout: 120
     when: search_machinecatalog
-    until: machinecatalog_delete.json.ErrorMessage == "Machine Catalog not found."
-    retries: 50
-    delay: 10
+
+  # - name: Get Machine Catalog
+  #   ansible.builtin.uri:
+  #     url: "https://api.cloud.com/cvad/manage/MachineCatalogs/{{ search_machinecatalog }}"
+  #     method: GET
+  #     body_format: json
+  #     status_code: [200, 201, 404]
+  #     headers:
+  #       Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+  #       Citrix-CustomerId: "{{ citrix_tenant }}"
+  #       Citrix-InstanceId: "{{ citrix_siteid }}"
+  #   register: machinecatalog_delete
+  #   when: search_machinecatalog
+  #   until: machinecatalog_delete.json.ErrorMessage == "Machine Catalog not found."
+  #   retries: 50
+  #   delay: 10
 
   - name: Get Existing hosting connections
     ansible.builtin.uri:
@@ -284,42 +289,6 @@
     loop: "{{ search_cloudconnectors }}"
     register: cloudconnector_delete
 
-  - name: Get Netscaler Config
-    ansible.builtin.uri:
-      url: "https://resourcelocationmanagement.citrixworkspacesapi.net/{{ citrix_tenant }}/NetScalerConfig"
-      method: GET
-      body_format: json
-      status_code: [200, 201]
-      headers:
-        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-        Citrix-CustomerId: "{{ citrix_tenant }}"
-        Citrix-InstanceId: "{{ citrix_siteid }}"
-    register: get_netscalerconfig
-
-
-  - name: Show Citrix Hypervisors
-    ansible.builtin.debug:
-      var: get_netscalerconfig
-
-  - name: Search all config for
-    ansible.builtin.set_fact:
-      search_netscalerconfig: "{{ get_netscalerconfig | community.general.json_query(query) | join(', ') }}"
-    vars:
-      query: "json.items[?name == '{{ adcgwurl }}'].id"
-
-  - name: Delete netscaler config
-    ansible.builtin.uri:
-      url: "https://resourcelocationmanagement.citrixworkspacesapi.net/{{ citrix_tenant }}/NetScalerConfig/{{ search_netscalerconfig }}"
-      method: DELETE
-      body_format: json
-      status_code: [200, 201]
-      headers:
-        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-        Citrix-CustomerId: "{{ citrix_tenant }}"
-        Citrix-InstanceId: "{{ citrix_siteid }}"
-    register: delete_netscalerconfig
-    when: search_netscalerconfig
-
   - name: Delete Resorce Location
     ansible.builtin.uri:
       url: "https://registry.citrixworkspacesapi.net/{{ citrix_tenant }}/resourcelocations/{{ search_resourcelocation }}"
@@ -332,5 +301,4 @@
         Citrix-InstanceId: "{{ citrix_siteid }}"
     when: search_resourcelocation
     register: delete_resloc
-
 

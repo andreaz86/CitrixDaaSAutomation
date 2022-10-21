@@ -1,4 +1,3 @@
-variable "vpc_selfid" {}
 variable "username" {}
 variable "password" {}
 variable "vda_subnetself_id" {}

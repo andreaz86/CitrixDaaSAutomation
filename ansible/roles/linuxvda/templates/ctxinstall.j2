@@ -1,0 +1,27 @@
+#!/bin/bash
+export CTX_EASYINSTALL_HOSTNAME={{ ansible_hostname }}
+export CTX_EASYINSTALL_DNS={{ dc_internal_ip }}
+export CTX_EASYINSTALL_NTPS={{ dc_internal_ip }}
+export CTX_EASYINSTALL_DOMAIN={{ netbios_name }}
+export CTX_EASYINSTALL_REALM={{ domain_name }}
+export CTX_EASYINSTALL_FQDN={{ dc_fqdn }}
+export CTX_EASYINSTALL_ADINTEGRATIONWAY=winbind
+export CTX_EASYINSTALL_USERNAME=administrator
+export CTX_EASYINSTALL_PASSWORD={{ administrator_password }}
+export CTX_XDL_SUPPORT_DDC_AS_CNAME=N
+export CTX_XDL_DDC_LIST={{ cc_names }}
+export CTX_XDL_VDA_PORT=80
+export CTX_XDL_REGISTER_SERVICE=Y
+export CTX_XDL_ADD_FIREWALL_RULES=Y
+export CTX_XDL_HDX_3D_PRO=N
+export CTX_XDL_VDI_MODE=N
+export CTX_XDL_SITE_NAME='<none>'
+export CTX_XDL_LDAP_LIST='<none>'
+export CTX_XDL_SEARCH_BASE='<none>'
+export CTX_XDL_FAS_LIST='<none>'
+export CTX_XDL_DOTNET_RUNTIME_PATH=/usr/bin
+export CTX_XDL_DESKTOP_ENVIRONMENT=gnome
+export CTX_XDL_TELEMETRY_SOCKET_PORT=7503
+export CTX_XDL_TELEMETRY_PORT=7502
+export CTX_XDL_START_SERVICE=Y
+sudo -E /opt/Citrix/VDA/sbin/ctxinstall.sh

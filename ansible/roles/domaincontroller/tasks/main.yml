@@ -48,11 +48,23 @@
     script: |
       Install-AdcsCertificationAuthority -force
 
-- name: Create dns records for monitoring vm
-  win_dns_record:
-    name: "monitoring"
-    type: "A"
-    value: "192.168.3.6"
-    zone: "{{ domain_name }}"
+- name: Create group with delete protection enabled and custom attributes
+  win_domain_group:
+    name: "{{ adgroup2create }}"
+    scope: domainlocal
+    category: security
+
+- name: Create AD Users
+  win_domain_user:
+    name: "{{ item }}"
+    firstname: "{{ item }}"
+    sam_account_name: "{{ item }}"
+    upn: "{{ item }}@{{ domain_name }}"
+    password: "{{ lookup('password', 'credentials/' + item + '/password.txt') }}"
+    state: present
+    groups:
+      - "{{ adgroup2create }}"
+  with_sequence: start=1 end={{ users2create }} format=testuser%02x
   become: true
+
 
