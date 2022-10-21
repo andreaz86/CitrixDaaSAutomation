@@ -51,6 +51,11 @@ To start terraforming:
  - git clone this repo
  - rename the terraform.tfvars.example file in terraform.tfvars
     - change variables accondingly with your environment
+- ```sh
+terraform init
+terraform plan
+terraform apply
+```
 - terraform init
 - terraform plan
 - terraform apply
