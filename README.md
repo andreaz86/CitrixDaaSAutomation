@@ -44,14 +44,19 @@ Before to preceed you need:
     - Install terraform: https://learn.hashicorp.com/tutorials/terraform/install-cli
     - Install Ansible: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
     - install jmespath from python-pip (pip3 install jmespath)
+    - gcloud sdk installed: https://cloud.google.com/sdk/docs/install
 
 
 ## Terraform
 To start terraforming:
- - git clone this repo
- - rename the terraform.tfvars.example file in terraform.tfvars
+- git clone this repo:
+```sh
+git clone https://github.com/andreaz86/CitrixDaaSAutomation
+cd CitrixDaaSAutomation
+```
+- rename the terraform.tfvars.example file in terraform.tfvars
     - change variables accondingly with your environment
-- 
+- apply terraform configuration:
 ```sh
 terraform init
 terraform plan
