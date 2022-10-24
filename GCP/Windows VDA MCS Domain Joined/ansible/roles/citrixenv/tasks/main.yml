@@ -282,7 +282,7 @@
         "Enabled": "true",
         "IncludedUserFilterEnabled": "false",
         "IncludedUsers":[],
-        "PublishedName":"Ubuntu Lab Desktop",
+        "PublishedName":"Windows Server Lab Desktop",
         "MaxDesktops":1 }
         ]
       MinimumFunctionalLevel: "L7_25"

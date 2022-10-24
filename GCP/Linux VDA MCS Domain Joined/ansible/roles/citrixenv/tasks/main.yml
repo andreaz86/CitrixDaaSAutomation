@@ -301,16 +301,14 @@
       MachineCatalogs: [{
         "MachineCatalog":"{{ machinecatalog.json.Id }}",
         "Count": "{{ vm2deply }}",
-        "AssignMachinesToUsers": [] }
-        ]
+        "AssignMachinesToUsers": [] }]
       DeliveryType: "DesktopsAndApps"
       Desktops: [{
         "Enabled": "true",
         "IncludedUserFilterEnabled": "false",
         "IncludedUsers":[],
-        "PublishedName":"Ubuntu Lab Desktop",
-        "MaxDesktops":1 }
-        ]
+        "PublishedName":"Ubuntu 2204 Lab Desktop",
+        "MaxDesktops":1 }]
       MinimumFunctionalLevel: "L7_25"
       AutoScaleEnabled: false
       RequireUserHomeZone: false
