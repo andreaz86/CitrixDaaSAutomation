@@ -41,17 +41,13 @@ module "domaincontroller" {
   vmname_prefix        = var.vmname_prefix
 }
 
-
-module "lin_vda" {
-  source              = "./modules/compute_instances/lin_vda"
-  linvda_vm           = var.linvda_vm
-  vda_subnetself_id   = module.vpc.vda_subnetself_id
-  username            = var.username
-  password            = var.password
-  vmname_prefix       = var.vmname_prefix
-  ssh_private_key_pem = local_file.ssh_private_key_pem
-  google_userinfo     = data.google_client_openid_userinfo.me
-  tls_private_key     = tls_private_key.ssh
+module "win_vda" {
+  source            = "./modules/compute_instances/win_vda"
+  winvda_vm         = var.winvda_vm
+  vda_subnetself_id = module.vpc.vda_subnetself_id
+  username          = var.username
+  password          = var.password
+  vmname_prefix     = var.vmname_prefix
 }
 
 

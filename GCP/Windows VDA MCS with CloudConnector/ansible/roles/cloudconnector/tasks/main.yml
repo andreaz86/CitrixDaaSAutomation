@@ -1,0 +1,107 @@
+- name: Create requirements directory
+  win_file:
+    path: C:\temp\requirements
+    state: directory
+
+- name: Download cloudconnector setup file
+  win_get_url:
+    url: https://downloads.cloud.com/{{ citrix_tenant }}/connector/cwcconnector.exe
+    dest: /temp/requirements/cwcconnector.exe
+
+- name: Join Domain
+  ansible.windows.win_domain_membership:
+    dns_domain_name: "{{ domain_name }}"
+    domain_admin_user: administrator
+    domain_admin_password: "{{ administrator_password }}"
+    state: domain
+  register: domain_state
+
+- name: Reboot server if requred
+  ansible.windows.win_reboot:
+  when: domain_state.reboot_required
+
+- name: Sleep for 120 to be sure all services are running
+  ansible.builtin.wait_for:
+    timeout: 120
+  delegate_to: localhost
+  when: domain_state.reboot_required
+
+- name: Create Bearer token (delegated to localhost)
+  ansible.builtin.uri:
+    url: https://api-eu.cloud.com/cctrustoauth2/root/tokens/clients
+    method: POST
+    body_format: form-urlencoded
+    body:
+      grant_type: "client_credentials"
+      client_id: "{{ citrix_client_id }}"
+      client_secret: "{{ citrix_client_secret }}"
+  register: token
+  delegate_to: localhost
+
+- name: Get current Resource Location (delegated to localhost)
+  ansible.builtin.uri:
+    url: "https://registry.citrixworkspacesapi.net/{{ citrix_tenant }}/resourcelocations"
+    method: GET
+    headers:
+      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+  register: current_resloc
+  delegate_to: localhost
+
+- name: Search for already existing resource location with the same name and set resloc_search variable
+  set_fact:
+    resloc_search: "{{ current_resloc | community.general.json_query(query) | join(', ') }}"
+  vars:
+    query: "json.items[?name=='{{ resource_location_name }}'].name"
+  delegate_to: localhost
+
+- name: Create Resource Location if not exists
+  ansible.builtin.uri:
+    url: "https://registry.citrixworkspacesapi.net/{{ citrix_tenant }}/resourcelocations"
+    method: POST
+    body_format: json
+    headers:
+      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+    body:
+      Name: "{{ resource_location_name }}"
+      internalOnly: "false"
+      readOnly: "false"
+  when: resloc_search != resource_location_name
+  register: resource_location
+  delegate_to: localhost
+
+- name: Get ResLoc ID from new one
+  set_fact:
+    resloc_id: "{{ resource_location.json.id }}"
+  when: resloc_search != resource_location_name
+  delegate_to: localhost
+
+- name: Get ResLoc ID if already exists
+  set_fact:
+    resloc_id: "{{ current_resloc | community.general.json_query(query) | join(', ') }}"
+  vars:
+    query: "json.items[?name=='{{ resource_location_name }}'].id"
+  delegate_to: localhost
+  when: resloc_search == resource_location_name
+
+- name: Copy CC installation configuration
+  ansible.windows.win_template:
+    src: ../template/cc_install_template.j2
+    dest: /temp/requirements/cwcconnector_install_params.json
+
+- name: Install Cloud cloudconnector
+  ansible.windows.win_package:
+    path: c:\temp\requirements\cwcconnector.exe
+    product_id: '{096D19F4-D07A-4024-8003-E22B99118A15}'
+    arguments: /q /ParametersFilePath:c:\temp\requirements\cwcconnector_install_params.json
+    expected_return_code: [0, 1603]
+  become: true
+  register: cc_install
+
+- name: Reboot server if requred
+  ansible.windows.win_reboot:
+  when: cc_install.rc == 1603
+
+- name: Remove Cloud Connector install parameter file for security
+  ansible.windows.win_file:
+    path: /temp/requirements/cwcconnector_install_params.json
+    state: absent

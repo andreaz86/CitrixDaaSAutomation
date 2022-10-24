@@ -1,0 +1,36 @@
+# GCP Variables
+gcp_project_id      = "gcpproject_id"
+gcp_project_name    = "gcpproject_name"
+gcp_region          = "europe-west4"
+gcp_zone            = "europe-west4-a"
+
+# VM Variables
+vmname_prefix = "az-"
+
+# Account Variables
+username       = "terrauser"
+password       = "Password123"
+admin_password = "Password123!"
+
+# Domain Variables
+domain_fqdn = "lab.local"
+
+# Citrix Cloud Variables
+citrix_tenant                       = "citrixtenantid"
+citrix_client_id                    = "citrix_client_id"
+citrix_client_secret                = "citrix_client_secret=="
+resource_location_name              = "testapi"
+hosting_connection_name             = "GCP_API_CONN"
+hosting_connection_resoucepool_name = "GCP_VDA_NET"
+machinecatalog_name                 = "API Machine Catalog"
+deliverygroup_name                  = "API Delivery Group"
+vm2deply                            = 1
+workspaceurl                        = "azapitest"
+
+
+
+# External URL Variables
+vda_server_url = "www.example.com/"
+optimizer_url  = "www.example.com/"
+linuxvda_url  = "www.example.com/"
+

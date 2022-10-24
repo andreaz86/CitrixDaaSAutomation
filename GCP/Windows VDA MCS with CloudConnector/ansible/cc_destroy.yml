@@ -1,0 +1,304 @@
+- name: Destroy Citrix Cloud env
+  hosts: localhost
+  tasks:
+  - name: Create Bearer token
+    ansible.builtin.uri:
+      url: https://api.cloud.com/cctrustoauth2/root/tokens/clients
+      method: POST
+      body_format: form-urlencoded
+      body:
+        grant_type: "client_credentials"
+        client_id: "{{ citrix_client_id }}"
+        client_secret: "{{ citrix_client_secret }}"
+    register: token
+
+  - name: Get SiteID
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/me"
+      method: GET
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+    register: get_citrix_siteid
+
+  - name: Set citrix_siteid var
+    ansible.builtin.set_fact:
+      citrix_siteid: "{{ get_citrix_siteid.json.Customers[0].Sites[0].Id }}"
+
+  - name: Get current delivery group
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/DeliveryGroups"
+      method: GET
+      body_format: json
+      status_code: [200, 201]
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    register: current_deliverygroup
+
+  - name: Search if delivery group exists
+    ansible.builtin.set_fact:
+      search_deliverygroup: "{{ current_deliverygroup | community.general.json_query(query) | join(', ') }}"
+    vars:
+      query: "json.Items[?Name=='{{ deliverygroup_name }}'].Id"
+
+
+  - name: Set delivery group in InMaintenanceMode
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/DeliveryGroups/{{ search_deliverygroup }}"
+      method: PATCH
+      body_format: json
+      status_code: [200, 201, 204]
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+      body:
+        InMaintenanceMode: true
+    register: machinecatalog
+    when: search_deliverygroup
+
+  - name: Search VM in the machine catalog
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/Machines/$search"
+      method: POST
+      body_format: json
+      status_code: [200, 201]
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+      body:
+        SearchFilters: [
+          {
+            "Property": "MachineCatalog",
+            "Value": "{{ machinecatalog_name }}",
+            "Operator": "StartsWith"
+          }
+        ]
+        SortCriteria:
+          Property: "MachineName"
+          SortDirection: "Ascending"
+    register: search_vm
+
+
+  - name: Show Citrix Hypervisors
+    ansible.builtin.debug:
+      var: search_vm
+
+  - name: Set variable with VM stop stop
+    ansible.builtin.set_fact:
+      vm2stop: "{{ search_vm | community.general.json_query(query) }}"
+    vars:
+      query: "json.Items[*].Id"
+
+  - name: Show Citrix Hypervisors
+    ansible.builtin.debug:
+      var: vm2stop
+
+  - name: Stop VM
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/Machines/{{ item }}/$shutdown"
+      method: POST
+      body_format: json
+      status_code: [200, 201]
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    loop: "{{ vm2stop }}"
+    register: vm_stop
+    when: search_deliverygroup
+
+  - name: Get Machine Catalog
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/MachineCatalogs"
+      method: GET
+      body_format: json
+      status_code: [200, 201]
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    register: machinecatalog
+
+  - name: Search if Machine Catalog
+    ansible.builtin.set_fact:
+      search_machinecatalog: "{{ machinecatalog | community.general.json_query(query) | join(', ') }}"
+    vars:
+      query: "json.Items[?Name=='{{ machinecatalog_name }}'].Id"
+
+  - name: Validate Credential
+    ansible.builtin.uri:
+      url: "https://{{ citrix_tenant }}.xendesktop.net/citrix/orchestration/api/techpreview/{{ citrix_tenant }}/{{ citrix_siteid }}/Identity/Users/$validate"
+      method: POST
+      body_format: json
+      status_code: [200, 201]
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+      body:
+        UserName: "Administrator"
+        Domain: "{{ domain_name }}"
+        Password: "{{ administrator_password }}"
+    register: validatecred
+    when: search_machinecatalog
+
+  - name: Create correct credential variable
+    ansible.builtin.set_fact:
+      cred: "{{ validatecred.json.DisplayName }}:{{ administrator_password }}"
+    when: search_machinecatalog
+
+  - name: Show facts available on the system
+    ansible.builtin.debug:
+      var: cred
+
+  - name: Encode Administrator Password
+    ansible.builtin.shell: echo "{{ cred | string | b64encode }}"
+    register: encodedpass
+    when: search_machinecatalog
+
+  - name: Delete Delivery Group
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/DeliveryGroups/{{ search_deliverygroup }}"
+      method: DELETE
+      body_format: json
+      status_code: [200, 201, 202, 204]
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    register: delete_deliverygroup
+    when: search_deliverygroup
+
+  - name: Delete Machine Catalog
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/MachineCatalogs/{{ search_machinecatalog }}?deleteVm=true&deleteAccount=true&async=true"
+      method: DELETE
+      body_format: json
+      status_code: [200, 201, 202, 204]
+      timeout: 300
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+        X-AdminCredential: "Basic {{ encodedpass.stdout }}"
+    register: delete_machinecatalog
+    when: search_machinecatalog
+
+  - name: Sleep for 120 to be sure all services are running
+    ansible.builtin.wait_for:
+      timeout: 120
+    when: search_machinecatalog
+
+  # - name: Get Machine Catalog
+  #   ansible.builtin.uri:
+  #     url: "https://api.cloud.com/cvad/manage/MachineCatalogs/{{ search_machinecatalog }}"
+  #     method: GET
+  #     body_format: json
+  #     status_code: [200, 201, 404]
+  #     headers:
+  #       Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+  #       Citrix-CustomerId: "{{ citrix_tenant }}"
+  #       Citrix-InstanceId: "{{ citrix_siteid }}"
+  #   register: machinecatalog_delete
+  #   when: search_machinecatalog
+  #   until: machinecatalog_delete.json.ErrorMessage == "Machine Catalog not found."
+  #   retries: 50
+  #   delay: 10
+
+  - name: Get Existing hosting connections
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/hypervisors"
+      method: GET
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    register: get_citrix_hypervisors
+
+  - name: Search for already existing hosting connector
+    ansible.builtin.set_fact:
+      hostingconnection_search: "{{ get_citrix_hypervisors | community.general.json_query(query) | join(', ') }}"
+    vars:
+      query: "json.Items[?Name=='{{ hosting_connection_name }}'].Id"
+
+  - name: Delete Hosting Connection
+    ansible.builtin.uri:
+      url: "https://api.cloud.com/cvad/manage/hypervisors/{{ hostingconnection_search }}"
+      method: DELETE
+      body_format: json
+      status_code: [200, 201, 204]
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    register: delete_hostingconnection
+    when: hostingconnection_search
+
+  - name: Get list of all CloudConnector
+    ansible.builtin.uri:
+      url: "https://agenthub.citrixworkspacesapi.net/{{ citrix_tenant }}/edgeservers/"
+      method: GET
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    register: get_citrix_cloudconnectors
+
+  - name: Get list of all Resource Location
+    ansible.builtin.uri:
+      url: "https://registry.citrixworkspacesapi.net/{{ citrix_tenant }}/resourcelocations"
+      method: GET
+      body_format: json
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+    register: resloc
+
+  - name: Show search_cloudconnectors
+    ansible.builtin.debug:
+      var: resloc
+
+  - name: Search the resource location and create search_resourcelocation variable with the ID
+    ansible.builtin.set_fact:
+      search_resourcelocation: "{{ resloc | community.general.json_query(query) | join(', ') }}"
+    vars:
+      query: "json.items[?name=='{{ resource_location_name }}'].id"
+
+
+  - name: Search all cloud connector of the Resource Location to delete
+    ansible.builtin.set_fact:
+      search_cloudconnectors: "{{ get_citrix_cloudconnectors | community.general.json_query(query) }}"
+    vars:
+      query: "json[?location=='{{ search_resourcelocation }}'].id"
+
+  # - name: Show search_cloudconnectors
+  #   ansible.builtin.debug:
+  #     var: search_cloudconnectors
+
+  - name: Delete Cloud Connector
+    ansible.builtin.uri:
+      url: "https://agenthub.citrixworkspacesapi.net/{{ citrix_tenant }}/edgeservers/{{ item }}"
+      method: DELETE
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    loop: "{{ search_cloudconnectors }}"
+    register: cloudconnector_delete
+
+  - name: Delete Resorce Location
+    ansible.builtin.uri:
+      url: "https://registry.citrixworkspacesapi.net/{{ citrix_tenant }}/resourcelocations/{{ search_resourcelocation }}"
+      method: DELETE
+      status_code: [200, 201, 204]
+      body_format: json
+      headers:
+        Authorization: "CwsAuth bearer={{ token.json.access_token }}"
+        Citrix-CustomerId: "{{ citrix_tenant }}"
+        Citrix-InstanceId: "{{ citrix_siteid }}"
+    when: search_resourcelocation
+    register: delete_resloc
+
