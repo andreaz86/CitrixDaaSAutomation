@@ -1,4 +1,4 @@
-# Citrix DaaS Automation for GCP
+# Citrix DaaS Automation for GCP - Linux VDA MCS Domain Joined
 
 Purpose of this project is to share a way to automate your Citrix DaaS deployment using terraform and ansible.
 Some use cases that can be covered include:
@@ -22,12 +22,12 @@ Below a list of feature provided in this project:
         - Peering Zone between VDA and Server
     - Create Cloud NAT for accessing internet from inside the provisioned MCS VM
 2. Ansible will take care of:
-    - install domain on the Domain Controller VM
+    - install domain on the Domain Controller VM (Windows Server 2022)
         - Create a groups and a specified numbers of users
     - install software requirements from chocolatey public repo
     - join all Windows VM to domain
     - Install Cloud Connector and register it to Citrix Cloud (Creating a specific resource location)
-    - install VDA on a Ubuntu VM
+    - install VDA on a Ubuntu VM (22.04)
     - Create hosting connection inside Citrix DaaS
     - Create Machine Catalog based on Linux VM
     - Create Delivery Group based on the Machine Catalog
@@ -44,8 +44,7 @@ Before to preceed you need:
     - Install terraform: https://learn.hashicorp.com/tutorials/terraform/install-cli
     - Install Ansible: https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
     - install jmespath from python-pip (pip3 install jmespath)
-    - gcloud sdk installed: https://cloud.google.com/sdk/docs/install
-
+    - install Google gcloud sdk: https://cloud.google.com/sdk/docs/install
 
 ## Terraform
 To start terraforming:
@@ -59,13 +58,13 @@ cd CitrixDaaSAutomation
 mv terraform.tfvars.example terraform.tfvars
 ```
 - change variables accondingly with your environment
+- configure the gcloud authentication using the default ADC (gcloud auth application-default login)
 - apply terraform configuration:
 ```sh
 terraform init
 terraform plan
 terraform apply
 ```
-
 
 ## Ansible
 After terraform has completed, you can configure the environment usign ansible (wait 2-3 min before to be sure all services has been started):
