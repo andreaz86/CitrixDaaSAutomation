@@ -157,21 +157,17 @@ variable "cloudconnector_vm" {
       vmimage  = "windows-cloud/windows-2022"
       disktype = "pd-standard"
     }
-  }
-}
-
-variable "winvda_vm" {
-  description = "Windows VDA VM config"
-  default = {
-    winvda01 = {
-      name     = "winvda01"
+    ccc02 = {
+      name     = "ccc02"
       vmtype   = "e2-medium"
-      zone     = "europe-west4-a"
+      zone     = "europe-west4-b"
+      ip       = "192.168.3.4"
       vmimage  = "windows-cloud/windows-2022"
       disktype = "pd-standard"
     }
   }
 }
+
 
 variable "linvda_vm" {
   description = "Linux VDA VM config"

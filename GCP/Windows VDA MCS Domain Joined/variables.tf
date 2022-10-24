@@ -155,6 +155,14 @@ variable "cloudconnector_vm" {
       vmimage  = "windows-cloud/windows-2022"
       disktype = "pd-standard"
     }
+    ccc02 = {
+      name     = "ccc02"
+      vmtype   = "e2-medium"
+      zone     = "europe-west4-b"
+      ip       = "192.168.3.4"
+      vmimage  = "windows-cloud/windows-2022"
+      disktype = "pd-standard"
+    }
   }
 }
 

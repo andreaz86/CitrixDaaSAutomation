@@ -8,7 +8,7 @@ output "cloudconnector_external_ip" {
   value = module.cloudconnector.cloudconnector_external_ip
 }
 
-output "linvda_external_ip" {
-  value = module.lin_vda.linvda_external_ip
+output "winvda_external_ip" {
+  value = module.win_vda.winvda_external_ip
 }
 
