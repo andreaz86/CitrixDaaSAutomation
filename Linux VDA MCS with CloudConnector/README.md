@@ -54,8 +54,11 @@ To start terraforming:
 git clone https://github.com/andreaz86/CitrixDaaSAutomation
 cd CitrixDaaSAutomation
 ```
-- rename the terraform.tfvars.example file in terraform.tfvars
-    - change variables accondingly with your environment
+- rename the terraform.tfvars.example file in terraform.tfvars:
+```sh
+mv terraform.tfvars.example terraform.tfvars
+```
+- change variables accondingly with your environment
 - apply terraform configuration:
 ```sh
 terraform init
