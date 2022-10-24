@@ -35,18 +35,18 @@
   win_wait_for:
     port: 9389
 
-- name: Install ADCS Features
-  win_feature:
-    name: AD-Certificate
-    include_management_tools: true
-    include_sub_features: true
-    state: present
-  register: adcs_features
+# - name: Install ADCS Features
+#   win_feature:
+#     name: AD-Certificate
+#     include_management_tools: true
+#     include_sub_features: true
+#     state: present
+#   register: adcs_features
 
-- name: Install CA
-  ansible.windows.win_powershell:
-    script: |
-      Install-AdcsCertificationAuthority -force
+# - name: Install CA
+#   ansible.windows.win_powershell:
+#     script: |
+#       Install-AdcsCertificationAuthority -force
 
 - name: Create group with delete protection enabled and custom attributes
   win_domain_group:

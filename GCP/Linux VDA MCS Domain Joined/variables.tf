@@ -80,18 +80,10 @@ variable "vm2deply" {
   description = "Number of the VM that will be created from MCS"
   default = 1
 }
-variable "workspaceurl" {
-  description = "Citrix Cloud URL to be used"
-}
 
 
-# External URL Variables
-variable "vda_server_url" {
-  description = "URL used to download the VDA"
-}
-variable "optimizer_url" {
-  description = "URL used to download the Citrix Optimizer Tool"
-}
+
+
 variable "linuxvda_url" {
   description = "URL used to download Linux VDA"
 }

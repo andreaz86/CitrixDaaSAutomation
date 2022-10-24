@@ -16,7 +16,7 @@ module "cloudnat" {
 
 module "iam" {
   source              = "./modules/iam"
-  gcp_service_account = "${var.vmname_prefix}-terraform-sa"
+  gcp_service_account = "${var.vmname_prefix}terraform-sa"
   gcp_project_id      = var.gcp_project_id
 }
 

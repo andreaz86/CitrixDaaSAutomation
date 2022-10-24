@@ -14,9 +14,7 @@ resource "local_file" "hosts_cfg" {
       citrix_tenant                       = var.citrix_tenant
       citrix_client_id                    = var.citrix_client_id
       citrix_client_secret                = var.citrix_client_secret
-      vda_server_url                      = var.vda_server_url
       linuxvda_url                        = var.linuxvda_url
-      optimizer_url                       = var.optimizer_url
       resource_location_name              = var.resource_location_name
       hosting_connection_name             = var.hosting_connection_name
       hosting_connection_resoucepool_name = var.hosting_connection_resoucepool_name

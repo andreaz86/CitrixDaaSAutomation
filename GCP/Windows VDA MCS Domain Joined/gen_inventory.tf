@@ -9,12 +9,10 @@ resource "local_file" "hosts_cfg" {
       terraform_pwd                       = var.password
       admin_password                      = var.admin_password
       domain_fqdn                         = var.domain_fqdn
-      ssh_username                        = local.ssh_username
       citrix_tenant                       = var.citrix_tenant
       citrix_client_id                    = var.citrix_client_id
       citrix_client_secret                = var.citrix_client_secret
       vda_server_url                      = var.vda_server_url
-      linuxvda_url                        = var.linuxvda_url
       optimizer_url                       = var.optimizer_url
       resource_location_name              = var.resource_location_name
       hosting_connection_name             = var.hosting_connection_name

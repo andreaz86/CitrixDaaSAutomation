@@ -6,7 +6,8 @@
 - name: Download VDA
   win_get_url:
     url: "{{ vda_server_url }}"
-    dest: c:\temp\requirements\VDAServerSetup_2206.exe
+    dest: c:\temp\requirements\
+  register: download_vda
 
 - name: Download Optimizer Tool
   win_get_url:
@@ -29,13 +30,14 @@
   ansible.builtin.wait_for:
     timeout: 60
   delegate_to: localhost
+  when: domain_state.reboot_required
 
 - name: Install VDA part 1
   ansible.windows.win_package:
-    path: c:\temp\requirements\VDAServerSetup_2206.exe
+    path: "{{ download_vda.dest }}"
     product_id: '{7E26A26E-E98B-4297-BEF4-0958A110E547}'
     state: present
-    arguments: /passive /logpath c:\temp\ /controllers "{{ cc_names }}" /enable_remote_assistance /masterimage /noreboot /noresume /virtualmachine /wem_cloud_connectors "{{ cc_names_wem }}" /enable_hdx_ports /enable_hdx_udp_ports /enable_ss_ports /wem_add_firewall_rules
+    arguments: /passive /logpath c:\temp\ /controllers "{{ cc_names }}" /enable_remote_assistance /masterimage /noreboot /noresume /virtualmachine /enable_hdx_ports /enable_hdx_udp_ports /enable_ss_ports
     expected_return_code: [0, 3, 8]
   register: installvda
   tags: vda
@@ -48,10 +50,10 @@
 
 - name: Install VDA part 2
   ansible.windows.win_package:
-    path: c:\temp\requirements\VDAServerSetup_2206.exe
+    path: "{{ download_vda.dest }}"
     product_id: '{7E26A26E-E98B-4297-BEF4-0958A110E547}'
     state: present
-    arguments: /passive /logpath c:\temp\ /controllers "{{ cc_names }}" /enable_remote_assistance /masterimage /noreboot /noresume /virtualmachine /wem_cloud_connectors "{{ cc_names_wem }}" /enable_hdx_ports /enable_hdx_udp_ports /enable_ss_ports /wem_add_firewall_rules
+    arguments: /passive /logpath c:\temp\ /controllers "{{ cc_names }}" /enable_remote_assistance /masterimage /noreboot /noresume /virtualmachine /enable_hdx_ports /enable_hdx_udp_ports /enable_ss_ports
     expected_return_code: [0, 3, 8]
   register: installvda
   tags: vda

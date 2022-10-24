@@ -78,70 +78,6 @@
     citrix_siteid: "{{ get_citrix_siteid.json.Customers[0].Sites[0].Id }}"
 
 
-## WORKSPACE CONFIGURATION
-
-- name: Get Existing storefront configuration
-  ansible.builtin.uri:
-    url: "https://storefrontconfiguration.citrixworkspacesapi.net/{{ citrix_tenant }}/storeconfigs"
-    method: GET
-    headers:
-      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-      Citrix-CustomerId: "{{ citrix_tenant }}"
-      Citrix-InstanceId: "{{ citrix_siteid }}"
-  register: get_current_storefrontconfig
-
-
-- name: Search StoreId and set store_id variable
-  set_fact:
-    store_id: "{{ get_current_storefrontconfig | community.general.json_query(query) | join(', ') }}"
-  vars:
-    query: "json.items[*].storeId"
-
-- name: Search cloud domain already configured and set domain_search variable
-  set_fact:
-    domain_search: "{{ get_current_storefrontconfig | community.general.json_query(query) | join(', ') }}"
-  vars:
-    query: "json.items[?storeFrontDomains.contains(@,'{{ workspaceurl }}.cloud.com')].storeFrontDomains"
-
-- name: Create workspaceurl_full variable for future iteration
-  set_fact:
-    workspaceurl_full: "{{ workspaceurl }}.cloud.com"
-
-- name: check if domain name already exists
-  ansible.builtin.uri:
-    url: "https://storefrontconfiguration.citrixworkspacesapi.net/{{ citrix_tenant }}/domains/check/{{ workspaceurl }}"
-    method: GET
-    headers:
-      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-      Citrix-CustomerId: "{{ citrix_tenant }}"
-      Citrix-InstanceId: "{{ citrix_siteid }}"
-  register: get_cloudcomain_avaiability
-  when: domain_search != workspaceurl_full
-
-# - name: Show get_current_storefrontconfig Hypervisors
-#   ansible.builtin.debug:
-#     var: get_cloudcomain_avaiability
-
-# - name: Modify the workspace url
-#   ansible.builtin.uri:
-#     url: "https://storefrontconfiguration.citrixworkspacesapi.net/{{ citrix_tenant }}/storeconfigs/{{ store_id }}"
-#     method: PUT
-#     body_format: json
-#     status_code: [200, 201]
-#     headers:
-#       Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-#       Citrix-CustomerId: "{{ citrix_tenant }}"
-#       Citrix-InstanceId: "{{ citrix_siteid }}"
-#     body:
-#       storeFrontDomains: ["{{ workspaceurl }}.cloud.com"]
-#       workSpaceUrlEnabled: true
-#   register: workspaceurl_change
-#   when: get_cloudcomain_avaiability.json == false
-
-# - name: Show workspaceurl_change
-#   ansible.builtin.debug:
-#     var: workspaceurl_change
-
 ## Setting Hosting Connection
 
 - name: Get Existing hosting connections
@@ -194,7 +130,7 @@
         VirtualPrivateCloud: "XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ gcp_region }}.region\\{{ vpcname }}.virtualprivatecloud"
         Networks: ["XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ gcp_region }}.region\\{{ vpcname }}.virtualprivatecloud\\{{ subnetname }}.network"]
   when: resloc_search != hosting_connection_name
-  register: provahosting
+  register: create_hostingconnection
 
 - name: Validate Credential for join MCS VMs
   ansible.builtin.uri:
@@ -376,10 +312,12 @@
         "MaxDesktops":1 }
         ]
       MinimumFunctionalLevel: "L7_25"
+      AutoScaleEnabled: false
       RequireUserHomeZone: false
       SimpleAccessPolicy:
         IncludedUsers: ["{{ netbios_name }}\\{{ adgroup2create }}"]
         AllowAnonymous: false
         IncludedUserFilterEnabled: true
       UserManagement: "Studio"
-  register: machinecatalog
+  register: create_deliverygroup
+

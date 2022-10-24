@@ -78,70 +78,6 @@
     citrix_siteid: "{{ get_citrix_siteid.json.Customers[0].Sites[0].Id }}"
 
 
-## WORKSPACE CONFIGURATION
-
-- name: Get Existing storefront configuration
-  ansible.builtin.uri:
-    url: "https://storefrontconfiguration.citrixworkspacesapi.net/{{ citrix_tenant }}/storeconfigs"
-    method: GET
-    headers:
-      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-      Citrix-CustomerId: "{{ citrix_tenant }}"
-      Citrix-InstanceId: "{{ citrix_siteid }}"
-  register: get_current_storefrontconfig
-
-
-- name: Search StoreId and set store_id variable
-  set_fact:
-    store_id: "{{ get_current_storefrontconfig | community.general.json_query(query) | join(', ') }}"
-  vars:
-    query: "json.items[*].storeId"
-
-- name: Search cloud domain already configured and set domain_search variable
-  set_fact:
-    domain_search: "{{ get_current_storefrontconfig | community.general.json_query(query) | join(', ') }}"
-  vars:
-    query: "json.items[?storeFrontDomains.contains(@,'{{ workspaceurl }}.cloud.com')].storeFrontDomains"
-
-- name: Create workspaceurl_full variable for future iteration
-  set_fact:
-    workspaceurl_full: "{{ workspaceurl }}.cloud.com"
-
-- name: check if domain name already exists
-  ansible.builtin.uri:
-    url: "https://storefrontconfiguration.citrixworkspacesapi.net/{{ citrix_tenant }}/domains/check/{{ workspaceurl }}"
-    method: GET
-    headers:
-      Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-      Citrix-CustomerId: "{{ citrix_tenant }}"
-      Citrix-InstanceId: "{{ citrix_siteid }}"
-  register: get_cloudcomain_avaiability
-  when: domain_search != workspaceurl_full
-
-# - name: Show get_current_storefrontconfig Hypervisors
-#   ansible.builtin.debug:
-#     var: get_cloudcomain_avaiability
-
-# - name: Modify the workspace url
-#   ansible.builtin.uri:
-#     url: "https://storefrontconfiguration.citrixworkspacesapi.net/{{ citrix_tenant }}/storeconfigs/{{ store_id }}"
-#     method: PUT
-#     body_format: json
-#     status_code: [200, 201]
-#     headers:
-#       Authorization: "CwsAuth bearer={{ token.json.access_token }}"
-#       Citrix-CustomerId: "{{ citrix_tenant }}"
-#       Citrix-InstanceId: "{{ citrix_siteid }}"
-#     body:
-#       storeFrontDomains: ["{{ workspaceurl }}.cloud.com"]
-#       workSpaceUrlEnabled: true
-#   register: workspaceurl_change
-#   when: get_cloudcomain_avaiability.json == false
-
-# - name: Show workspaceurl_change
-#   ansible.builtin.debug:
-#     var: workspaceurl_change
-
 ## Setting Hosting Connection
 
 - name: Get Existing hosting connections
@@ -154,9 +90,6 @@
       Citrix-InstanceId: "{{ citrix_siteid }}"
   register: get_citrix_hypervisors
 
-# - name: Show Citrix Hypervisors
-#   ansible.builtin.debug:
-#     var: get_citrix_hypervisors
 
 - name: Search for already existing hosting connector with the same name
   set_fact:
@@ -194,7 +127,7 @@
         VirtualPrivateCloud: "XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ gcp_region }}.region\\{{ vpcname }}.virtualprivatecloud"
         Networks: ["XDHyp:\\Connections\\{{ hosting_connection_name }}\\{{ gcp_project_name }}.project\\{{ gcp_region }}.region\\{{ vpcname }}.virtualprivatecloud\\{{ subnetname }}.network"]
   when: resloc_search != hosting_connection_name
-  register: provahosting
+  register: create_hostingconnection
 
 - name: Validate Credential for join MCS VMs
   ansible.builtin.uri:
@@ -216,18 +149,10 @@
   set_fact:
     cred: "{{ validatecred.json.DisplayName }}:{{ administrator_password }}"
 
-- name: Show facts available on the system
-  ansible.builtin.debug:
-    var: cred
 
 - name: Encode Administrator Password
   ansible.builtin.shell: echo "{{ cred | string | b64encode }}"
   register: encodedpass
-
-
-# - name: Show facts available on the system
-#   ansible.builtin.debug:
-#     var: encodedpass.stdout
 
 - name: Get current Machine Catalogs
   ansible.builtin.uri:
@@ -242,10 +167,6 @@
       X-AdminCredential: "Basic {{ encodedpass.stdout }}"
   register: current_machinecatalogs
 
-# - name: Show facts available on the system
-#   ansible.builtin.debug:
-#     var: current_machinecatalogs
-
 - name: Search if Machine Catalog with the same name already exists
   ansible.builtin.set_fact:
     search_machinecatalog: "{{ current_machinecatalogs | community.general.json_query(query) | join(', ') }}"
@@ -259,9 +180,6 @@
     query: "json.Items[?Name=='{{ machinecatalog_name }}'].Id"
   when: search_machinecatalog == machinecatalog_name
 
-- name: Show facts available on the system
-  ansible.builtin.debug:
-    var: search_machinecatalog_id
 
 - name: Get current machine catalog
   ansible.builtin.uri:
@@ -275,10 +193,6 @@
       Citrix-InstanceId: "{{ citrix_siteid }}"
   register: machinecatalog_already_exists
   when: search_machinecatalog == machinecatalog_name
-
-- name: Show machinecatalog
-  ansible.builtin.debug:
-    var: machinecatalog
 
 - name: Create Machine Catalog if not exists
   ansible.builtin.uri:
@@ -326,12 +240,8 @@
 
 - name: Restore machinecatalog variable 
   ansible.builtin.set_fact:
-    machinecatalog: "{{ machinecatalog_already_exists }}"
+    machinecatalog : "{{ machinecatalog_already_exists }}"
   when: search_machinecatalog == machinecatalog_name
-
-- name: Show machinecatalog
-  ansible.builtin.debug:
-    var: machinecatalog
 
 - name: Get current Machine Catalogs preparation
   ansible.builtin.uri:
@@ -372,14 +282,16 @@
         "Enabled": "true",
         "IncludedUserFilterEnabled": "false",
         "IncludedUsers":[],
-        "PublishedName":"Windows Lab Desktop",
+        "PublishedName":"Ubuntu Lab Desktop",
         "MaxDesktops":1 }
         ]
       MinimumFunctionalLevel: "L7_25"
+      AutoScaleEnabled: false
       RequireUserHomeZone: false
       SimpleAccessPolicy:
         IncludedUsers: ["{{ netbios_name }}\\{{ adgroup2create }}"]
         AllowAnonymous: false
         IncludedUserFilterEnabled: true
       UserManagement: "Studio"
-  register: machinecatalog
+  register: create_deliverygroup
+

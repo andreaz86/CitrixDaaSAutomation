@@ -90,9 +90,7 @@ variable "vda_server_url" {
 variable "optimizer_url" {
   description = "URL used to download the Citrix Optimizer Tool"
 }
-variable "linuxvda_url" {
-  description = "URL used to download Linux VDA"
-}
+
 
 
 ########### VM CONFIG ##############

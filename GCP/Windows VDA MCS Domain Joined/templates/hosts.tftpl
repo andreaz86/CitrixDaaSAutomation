@@ -17,7 +17,6 @@ deliverygroup_name = "${deliverygroup_name}"
 citrix_client_id = "${citrix_client_id}"
 citrix_client_secret = "${citrix_client_secret}"
 vm2deply = "${vm2deply}"
-workspaceurl = "${workspaceurl}"
 gcp_project_id = "${gcp_project_id}"
 masterimagename = "${masterimagename}"
 users2create    = ${users2create}
@@ -39,6 +38,12 @@ ${ip}
 %{ for ip in windowsvda ~}
 ${ip}
 %{ endfor ~}
+
+[windowsvda:vars]
+vda_server_url = "${vda_server_url}"
+optimizer_url = "${optimizer_url}"
+cc_names = "${cc_names}"
+cc_names_wem ="${cc_names_wem}"
 
 [windows:vars]
 terraform_user = "${terraform_user}"
