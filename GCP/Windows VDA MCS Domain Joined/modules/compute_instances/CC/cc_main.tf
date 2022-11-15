@@ -12,8 +12,8 @@ resource "google_compute_instance" "vm_cc" {
   }
   boot_disk {
     initialize_params {
-      image = "windows-cloud/windows-2022"
-      type  = "pd-balanced"
+      image = each.value.vmimage
+      type  = each.value.disktype
     }
   }
   network_interface {

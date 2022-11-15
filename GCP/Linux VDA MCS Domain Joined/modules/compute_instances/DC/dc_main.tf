@@ -4,12 +4,9 @@ resource "google_compute_instance" "dc_vm" {
   machine_type = each.value.vmtype
   zone         = each.value.zone
   tags         = ["ssh", "rdp", "domaincontroller"]
-  scheduling {
-    provisioning_model          = "SPOT"
-    preemptible                 = "true"
-    automatic_restart           = "false"
-    instance_termination_action = "STOP"
-  }
+  enable_display = true
+  allow_stopping_for_update = true
+
   boot_disk {
     initialize_params {
       image = each.value.vmimage

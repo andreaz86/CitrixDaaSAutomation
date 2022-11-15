@@ -28,7 +28,6 @@ resource "local_file" "hosts_cfg" {
       machinecatalog_name = var.machinecatalog_name
       deliverygroup_name  = var.deliverygroup_name
       vm2deply            = var.vm2deply
-      workspaceurl        = var.workspaceurl
       cc_names            = module.cloudconnector.cc_names
       gcp_project_id      = var.gcp_project_id
       cc_names_wem        = module.cloudconnector.cc_names_wem

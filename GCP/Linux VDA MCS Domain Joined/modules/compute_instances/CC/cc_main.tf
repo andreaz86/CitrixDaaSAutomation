@@ -4,16 +4,13 @@ resource "google_compute_instance" "vm_cc" {
   machine_type = each.value.vmtype
   zone         = each.value.zone
   tags         = ["ssh", "rdp", "cloudconnector"]
-  scheduling {
-    provisioning_model          = "SPOT"
-    preemptible                 = "true"
-    automatic_restart           = "false"
-    instance_termination_action = "STOP"
-  }
+  enable_display = true
+  allow_stopping_for_update = true
+  
   boot_disk {
     initialize_params {
-      image = "windows-cloud/windows-2022"
-      type  = "pd-balanced"
+      image = each.value.vmimage
+      type  = each.value.disktype
     }
   }
   network_interface {

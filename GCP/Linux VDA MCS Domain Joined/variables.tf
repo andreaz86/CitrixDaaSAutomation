@@ -132,7 +132,7 @@ variable "domaincontroller_vm" {
       zone     = "europe-west4-a"
       ip       = "192.168.3.2"
       vmimage  = "windows-cloud/windows-2022"
-      disktype = "pd-standard"
+      disktype = "pd-balanced"
     }
   }
 }
@@ -147,16 +147,16 @@ variable "cloudconnector_vm" {
       zone     = "europe-west4-a"
       ip       = "192.168.3.3"
       vmimage  = "windows-cloud/windows-2022"
-      disktype = "pd-standard"
+      disktype = "pd-balanced"
     }
-    ccc02 = {
-      name     = "ccc02"
-      vmtype   = "e2-medium"
-      zone     = "europe-west4-b"
-      ip       = "192.168.3.4"
-      vmimage  = "windows-cloud/windows-2022"
-      disktype = "pd-standard"
-    }
+    # ccc02 = {
+    #   name     = "ccc02"
+    #   vmtype   = "e2-medium"
+    #   zone     = "europe-west4-b"
+    #   ip       = "192.168.3.4"
+    #   vmimage  = "windows-cloud/windows-2022"
+    #   disktype = "pd-standard"
+    # }
   }
 }
 
