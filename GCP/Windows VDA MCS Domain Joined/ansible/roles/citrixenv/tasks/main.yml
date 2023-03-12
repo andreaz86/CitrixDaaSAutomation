@@ -147,7 +147,7 @@
 
 - name: Create correct credential variable
   set_fact:
-    cred: "{{ validatecred.json.DisplayName }}:{{ administrator_password }}"
+    cred: "{{ validatecred.json.SamName }}:{{ administrator_password }}"
 
 
 - name: Encode Administrator Password
@@ -216,6 +216,7 @@
       ProvisioningScheme:
         MasterImagePath: "XDHyp:\\HostingUnits\\{{ hosting_connection_resoucepool_name }}\\{{ masterimagename }}.vm"
         CpuCount: 2
+        UseWriteBackCache: false
         MemoryMB: 8192
         NumTotalMachines: "{{ vm2deply }}"
         NetworkMaps: [
@@ -225,8 +226,6 @@
           NamingSchemeType: "Numeric"
           Domain: "{{ domain_name }}"
           OU: ""
-        PrepareImage: true
-        DedicatedTenancy: false
         SecurityGroups: null
         UseFullDiskCloneProvisioning: false
         CustomProperties: [{
