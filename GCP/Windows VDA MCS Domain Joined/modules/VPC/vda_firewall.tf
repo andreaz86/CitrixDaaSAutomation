@@ -32,6 +32,17 @@ resource "google_compute_firewall" "allow-ssh-vda" {
   target_tags   = ["ssh"]
 }
 
+resource "google_compute_firewall" "allow-winrm-vda" {
+  name    = "allow-vda-winrm"
+  network = google_compute_network.vpc_vda.self_link
+  allow {
+    protocol = "tcp"
+    ports    = ["5985","5986"]
+  }
+  source_ranges = ["${chomp(data.http.myip.response_body)}/32"]
+  target_tags   = ["vda"]
+}
+
 resource "google_compute_firewall" "allow-80-from-cc" {
   name    = "allow-80-from-cc"
   network = google_compute_network.vpc_vda.self_link

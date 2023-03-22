@@ -148,7 +148,7 @@
 
   - name: Create correct credential variable
     ansible.builtin.set_fact:
-      cred: "{{ validatecred.json.DisplayName }}:{{ administrator_password }}"
+      cred: "{{ validatecred.json.SamName }}:{{ administrator_password }}"
     when: search_machinecatalog
 
   - name: Show facts available on the system

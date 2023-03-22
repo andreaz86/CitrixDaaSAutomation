@@ -1,4 +1,4 @@
-- name: Set timezone to 'W. Europe Standard Time'
+- name: Set timezone to W. Europe Standard Time
   win_timezone:
     timezone: "{{ vm_timezone }}"
 
